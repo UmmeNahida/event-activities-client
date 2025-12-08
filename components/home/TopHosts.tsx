@@ -1,30 +1,61 @@
-import React from 'react'
-import { hosts } from './Home'
+import Image from "next/image";
 
-const TopHosts = () => {
+export default function TopHosts() {
+  const speakers = [
+    {
+      name: "Darrell Steward",
+      role: "Founder & CEO, GTGO",
+      desc: "Solving real problems through innovation & creative thinking.",
+      img: "/speaker1.png",
+    },
+    {
+      name: "Darlene Robertson",
+      role: "Co–Founder, MPLM",
+      desc: "Building impactful solutions and driving innovation forward.",
+      img: "/speaker2.png",
+    },
+    {
+      name: "Brooklyn Simmons",
+      role: "Director Leader, UTLC",
+      desc: "Guiding teams and driving impactful innovation forward.",
+      img: "/speaker3.png",
+    },
+    {
+      name: "Cameron Ondaiya",
+      role: "Business Advisor, BDS",
+      desc: "Empowering growth and delivering strategic business solutions.",
+      img: "/speaker4.png",
+    },
+  ];
+
   return (
-    <div>
+    <section className="w-full bg-[#030b3a] bg-gradient-to-b from-[#030b3a] via-[#0b0f4b] to-[#030b3a] py-20">
+      <div className="max-w-7xl mx-auto px-4 text-center">
+        <p className="text-blue-400 tracking-widest uppercase text-sm mb-2">Our Speakers</p>
+        <h2 className="text-4xl font-bold text-white mb-12">Say Hello to Our Speakers</h2>
 
-         {/* Top-Rated Hosts (Our Speakers style) */}
-          <section className="mt-10 bg-white rounded-2xl p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Top-Rated Hosts</h2>
-              <a href="/hosts" className="text-sm text-sky-600 hover:underline">See all hosts</a>
-            </div>
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {speakers.map((spk, index) => (
+            <div
+              key={index}
+              className="bg-white/5 backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-xl flex items-center gap-6 hover:bg-white/10 transition duration-300"
+            >
+              {/* Image */}
+              <div className="min-w-[180px] h-[180px] relative rounded-xl overflow-hidden">
+                <Image src={spk.img} alt={spk.name} fill className="object-cover" />
+              </div>
 
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {hosts.map((h) => (
-                <div key={h.id} className="flex flex-col items-center text-center p-4 rounded-lg bg-gray-50">
-                  <img src={h.avatar} alt={h.name} className="w-20 h-20 rounded-full object-cover" />
-                  <div className="mt-3 font-semibold">{h.name}</div>
-                  <div className="text-sm text-gray-500">{h.events} events • {h.rating}★</div>
-                  <a href={`/hosts/${h.id}`} className="mt-3 inline-block text-sm text-sky-600 hover:underline">View profile</a>
-                </div>
-              ))}
+              {/* Text */}
+              <div className="text-left text-white">
+                <h3 className="text-xl font-semibold">{spk.name}</h3>
+                <p className="text-blue-300 text-sm mb-3">{spk.role}</p>
+                <p className="text-sm text-gray-300 leading-relaxed">{spk.desc}</p>
+              </div>
             </div>
-          </section>
-    </div>
-  )
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
-
-export default TopHosts
