@@ -1,8 +1,8 @@
 
-import Banner from "@/components/modules/home/Banner";
-import EventHomepage from "@/components/modules/home/Home";
-import HowItWork from "@/components/modules/home/HowItWork";
-import TopHosts from "@/components/modules/home/TopHosts";
+import Banner from "@/components/modules/Home/Banner";
+import EventHomepage from "@/components/modules/Home/Home";
+import HowItWork from "@/components/modules/Home/HowItWork";
+import TopHosts from "@/components/modules/Home/TopHosts";
 import { getUserInfo } from "@/services/auth/getUserInfo";
 import Head from "next/head";
 

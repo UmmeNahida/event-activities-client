@@ -1,7 +1,9 @@
 
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import { getCookie } from "@/services/auth/tokenHandler";
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import LogoutButton from "./LogoutButton";
 
 const commonNav = [
   { label: "Explore Events", href: "/events" },
@@ -26,7 +28,7 @@ const adminNav = [
   { label: "My Profile", href: "/profile" },
 ];
 
-export default function Navbar({ role = "guest" }) {
+export default async function Navbar({ role = "guest" }) {
 
   let navItems = [...commonNav];
   console.log("role", role)
@@ -34,10 +36,11 @@ export default function Navbar({ role = "guest" }) {
   if (role === "guest" || null) navItems.push({ label: "Become a Host", href: "/become-host" });
   if (role === "guest" || null) navItems.push({ label: "Login", href: "/login" }, { label: "Register", href: "/register" });
 
-  if (role === "USER") navItems = [...commonNav, ...userNav, { label: "Logout", href: "/logout" }];
-  if (role === "HOST") navItems = [...commonNav, ...hostNav, { label: "Logout", href: "/logout" }];
-  if (role === "ADMIN") navItems = [...adminNav, { label: "Logout", href: "/logout" }];
+  if (role === "USER") navItems = [...commonNav, ...userNav];
+  if (role === "HOST") navItems = [...commonNav, ...hostNav];
+  if (role === "ADMIN") navItems = [...adminNav];
 
+  const accessToken = await getCookie("accessToken");
   return (
     <header className="fixed top-6 inset-x-4 h-16 w-full bg-[#0B0E24]/40 backdrop-blur-xl shadow-xl py-6 px-6 rounded-full max-w-7xl mx-auto flex items-center justify-between z-30">
       <Link href="/" className="flex items-center gap-2 text-white text-2xl font-bold">
@@ -50,6 +53,12 @@ export default function Navbar({ role = "guest" }) {
             {item.label}
           </Link>
         ))}
+
+        {
+          accessToken && (
+            <LogoutButton />
+          )
+        }
       </nav>
 
       <div className="md:hidden">
@@ -62,6 +71,12 @@ export default function Navbar({ role = "guest" }) {
                   {item.label}
                 </Link>
               ))}
+
+              {
+                accessToken && (
+                  <LogoutButton />
+                )
+              }
             </div>
           </SheetContent>
         </Sheet>
