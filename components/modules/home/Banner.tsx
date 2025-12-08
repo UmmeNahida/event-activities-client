@@ -1,6 +1,6 @@
 import React from 'react'
 import { sampleEvents } from './Home'
-import ContainerDiv from '../shared/ContainerDiv'
+import ContainerDiv from '../../shared/ContainerDiv'
 
 const Banner = () => {
     return (

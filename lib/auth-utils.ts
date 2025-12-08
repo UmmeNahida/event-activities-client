@@ -1,5 +1,5 @@
 // user role base access control added here
-export type UserRole = 'ADMIN' | 'DOCTOR' | 'PATIENT' | 'GUEST';
+export type UserRole = 'ADMIN' | 'HOST' | 'USER' | 'GUEST';
 
 export type RouteConfig = {
     exact: string[];
@@ -20,14 +20,14 @@ export const adminProtectedRoutes: RouteConfig = {
 }
 
 
-export const doctorProtectedRoutes: RouteConfig = {
-    pattern: [/^\/doctor/], // matches /doctor and any sub routes /doctor/*
+export const hostProtectedRoutes: RouteConfig = {
+    pattern: [/^\/host/], // matches /host and any sub routes /doctor/*
     exact: []
 }
 
 
-export const patientProtectedRoutes: RouteConfig = {
-    pattern: [/^\/dashboard/], // matches /dashboard and any sub routes /dashboard/*
+export const userProtectedRoutes: RouteConfig = {
+    pattern: [/^\/user/], // matches /user and any sub routes /user/*
     exact: []
 }
 
@@ -38,30 +38,31 @@ export const isAuthRoute = (pathname: string) => {
 
 
 export const isRouteMatches = (pathname: string, routes: RouteConfig) => {
-    if (routes.exact.includes(pathname)) {
+    if (routes.exact.includes(pathname)) { // example: /user/profile is exactly matched with /user/profile
         return true;
     }
 
+    // example: /doctor/appointments is matched with /^\/doctor/
     return routes.pattern.some((pattern) => pattern.test(pathname))
 
 }
 
 
-export const getRouteOwnerRole = (pathname: string): "ADMIN" | "DOCTOR" | "PATIENT" | "COMMON" | null => {
-    if (isRouteMatches(pathname, adminProtectedRoutes)) {
+export const getRouteOwnerRole = (pathname: string): "ADMIN" | "HOST" | "USER" | "COMMON" | null => {
+    if (isRouteMatches(pathname, adminProtectedRoutes)) { // /admin/dashboard => "ADMIN" /user/profile 
         return "ADMIN";
     }
 
-    if (isRouteMatches(pathname, doctorProtectedRoutes)) {
-        return "DOCTOR";
+    if (isRouteMatches(pathname, hostProtectedRoutes)) {
+        return "HOST"; 
     }
 
-    if (isRouteMatches(pathname, patientProtectedRoutes)) {
-        return "PATIENT";
+    if (isRouteMatches(pathname, userProtectedRoutes)) {
+        return "USER"; 
     }
 
     if (isRouteMatches(pathname, commonProtectedRoutes)) {
-        return "COMMON";
+        return "COMMON"; // /my-profile => "COMMON"
     }
 
     return null;
@@ -74,12 +75,12 @@ export const getDefaultDashboardRoute = (role: UserRole) => {
         return '/admin/dashboard';
     }
 
-    if (role === 'DOCTOR') {
+    if (role === 'HOST') {
         return '/doctor/dashboard';
     }
 
-    if (role === 'PATIENT') {
-        return "/dashboard";
+    if (role === 'USER') {
+        return "/user/dashboard";
     }
 
     return '/';

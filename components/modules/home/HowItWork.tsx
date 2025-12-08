@@ -1,5 +1,5 @@
 import React from 'react'
-import ContainerDiv from '../shared/ContainerDiv'
+import ContainerDiv from '../../shared/ContainerDiv'
 import Image from 'next/image'
 
 const HowItWork = () => {
