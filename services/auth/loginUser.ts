@@ -53,9 +53,10 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         })
 
         const result = await res.json();
+        console.log("result;",result)
 
         if(!result.success){
-            throw new Error(result.error.message || "Login failed");
+            throw new Error(result.message);
         }
 
 
@@ -133,7 +134,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         if (typeof digest === 'string' && digest.startsWith('NEXT_REDIRECT')) {
             throw error;
         }
-        // console.log("AMI ERROR", error?.message);
+        console.log("AMI ERROR", error);
     
         return { success: false, message:`${process.env.NODE_ENV === 'development' ? error : 'login failed, you might have entered wrong credentials'}`};
     } 
