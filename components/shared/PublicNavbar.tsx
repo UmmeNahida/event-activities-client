@@ -4,31 +4,36 @@ import { getCookie } from "@/services/auth/tokenHandler";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
+import { getDefaultDashboardRoute } from "@/lib/auth-utils";
 
 const commonNav = [
   { label: "Explore Events", href: "/events" },
 ];
 
-const userNav = [
-  { label: "My Events", href: "/my-events" },
-  { label: "Profile", href: "/profile" },
-];
 
-const hostNav = [
-  { label: "My Events (Hosted)", href: "/host/events" },
-  { label: "Create Event", href: "/host/create" },
-  { label: "Profile", href: "/profile" },
-];
 
-const adminNav = [
-  { label: "Admin Dashboard", href: "/admin" },
-  { label: "Manage Users", href: "/admin/users" },
-  { label: "Manage Hosts", href: "/admin/hosts" },
-  { label: "Manage Events", href: "/admin/events" },
-  { label: "My Profile", href: "/profile" },
-];
+export default async function Navbar({ role = null }) {
 
-export default async function Navbar({ role = "guest" }) {
+  const defaultDashboard = getDefaultDashboardRoute(role);
+
+  const userNav = [
+    { label: "My Events", href: "/my-events" },
+    { label: "Profile", href: defaultDashboard },
+  ];
+
+  const hostNav = [
+    { label: "My Events (Hosted)", href: "/host/events" },
+    { label: "Create Event", href: "/host/create" },
+    { label: "Profile", href: defaultDashboard },
+  ];
+
+  const adminNav = [
+    { label: "Admin Dashboard", href: "/admin" },
+    { label: "Manage Users", href: "/admin/users" },
+    { label: "Manage Hosts", href: "/admin/hosts" },
+    { label: "Manage Events", href: "/admin/events" },
+    { label: "My Profile", href: defaultDashboard },
+  ];
 
   let navItems = [...commonNav];
   console.log("role", role)

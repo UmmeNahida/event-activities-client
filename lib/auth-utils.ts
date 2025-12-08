@@ -70,13 +70,13 @@ export const getRouteOwnerRole = (pathname: string): "ADMIN" | "HOST" | "USER" |
 
 
 
-export const getDefaultDashboardRoute = (role: UserRole) => {
+export const getDefaultDashboardRoute = (role: UserRole | null) => {
     if (role === 'ADMIN') {
         return '/admin/dashboard';
     }
 
     if (role === 'HOST') {
-        return '/doctor/dashboard';
+        return '/host/dashboard';
     }
 
     if (role === 'USER') {
