@@ -15,7 +15,7 @@ export const getUserInfo = async (): Promise<IUserInfo | null> => {
     }
 
    const varifiedToken = jwt.verify(accessToken, process.env.JWT_SECRET as string) as JwtPayload;
-   console.log("varifiedToken",varifiedToken)
+   // console.log("varifiedToken",varifiedToken)
 
    if(!varifiedToken){
         return null

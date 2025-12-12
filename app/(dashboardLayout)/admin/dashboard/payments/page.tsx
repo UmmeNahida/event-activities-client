@@ -1,4 +1,3 @@
-import React from 'react'
 
 const PaymentsOverview = () => {
   return (
@@ -6,4 +5,4 @@ const PaymentsOverview = () => {
   )
 }
 
-export default PaymentsOverview
+export default PaymentsOverview;
