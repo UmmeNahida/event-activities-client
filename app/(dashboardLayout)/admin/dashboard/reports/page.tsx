@@ -1,8 +1,12 @@
-import React from 'react'
+import ReportsPage from '@/components/modules/Report/ReportPage'
 
-const ReportsManagement = () => {
+
+const ReportsManagement = async() => {
+  
   return (
-    <div>ReportsManagement</div>
+    <div>
+      <ReportsPage />
+    </div>
   )
 }
 

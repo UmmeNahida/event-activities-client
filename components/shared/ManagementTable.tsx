@@ -101,6 +101,8 @@ function ManagementTable<T>({
       <ArrowDown className="ml-2 h-4 w-4" />
     );
   };
+
+  console.log("management",data)
   return (
     <>
       <div className="rounded-lg border relative">
