@@ -42,7 +42,7 @@ export const sampleEvents = [
     date: "Jan 10, 2026",
     location: "Downtown Hub",
     price: "$20",
-    img: "https://i.ibb.co.com/TxBjRR0Q/hotel-home.jpg",
+    img: "https://i.ibb.co.com/x8R6kBGz/istockphoto-1479759169-612x612.jpg",
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ export const sampleEvents = [
     date: "Dec 28, 2025",
     location: "Old Town",
     price: "$15",
-    img: "https://i.ibb.co.com/TxBjRR0Q/hotel-home.jpg",
+    img: "https://i.ibb.co.com/tpbsQHFB/about-image-1.jpg",
   },
   {
     id: 4,
@@ -58,7 +58,7 @@ export const sampleEvents = [
     date: "Jan 05, 2026",
     location: "Riverside",
     price: "Free",
-    img: "https://i.ibb.co.com/TxBjRR0Q/hotel-home.jpg",
+    img: "https://i.ibb.co.com/1RtN0Sk/1696575386372.jpg",
   },
 ];
 

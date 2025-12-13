@@ -16,7 +16,7 @@ export default function EventsPagination({
 }: EventsPaginationProps) {
     const getPageNumbers = () => {
         const pages: (number | string)[] = [];
-        const maxVisible = 5;
+        const maxVisible = 4;
 
         if (totalPages <= maxVisible) {
             // Show all pages if total is less than max visible

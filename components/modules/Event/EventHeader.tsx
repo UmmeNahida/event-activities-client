@@ -49,17 +49,6 @@ export default function EventsHeader({
                     />
                 </div>
 
-                {/* Sort Dropdown */}
-                <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-full md:w-[200px] h-12 rounded-xl border-2">
-                        <SelectValue placeholder="Sort by" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="newest">Newest</SelectItem>
-                        <SelectItem value="upcoming">Upcoming</SelectItem>
-                        <SelectItem value="popular">Popular</SelectItem>
-                    </SelectContent>
-                </Select>
             </div>
         </div>
     );

@@ -6,25 +6,25 @@ export default function TopHosts() {
       name: "Darrell Steward",
       role: "Founder & CEO, GTGO",
       desc: "Solving real problems through innovation & creative thinking.",
-      img: "/speaker1.png",
+      img: "https://i.ibb.co.com/ccGwqhv0/host04.avif",
     },
     {
       name: "Darlene Robertson",
       role: "Co–Founder, MPLM",
       desc: "Building impactful solutions and driving innovation forward.",
-      img: "/speaker2.png",
+      img: "https://i.ibb.co.com/jZMhKqgd/host03.jpg",
     },
     {
       name: "Brooklyn Simmons",
       role: "Director Leader, UTLC",
       desc: "Guiding teams and driving impactful innovation forward.",
-      img: "/speaker3.png",
+      img: "https://i.ibb.co.com/811jn2P/user02.avif",
     },
     {
       name: "Cameron Ondaiya",
       role: "Business Advisor, BDS",
       desc: "Empowering growth and delivering strategic business solutions.",
-      img: "/speaker4.png",
+      img: "https://i.ibb.co.com/B2vfK9Sd/man01.avif",
     },
   ];
 

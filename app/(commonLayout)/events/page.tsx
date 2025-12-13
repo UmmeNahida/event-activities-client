@@ -14,7 +14,7 @@ const mockEvents = [
     {
         id: "1",
         title: "Summer Music Festival 2024",
-        image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&q=80",
+        image: "https://i.ibb.co.com/xYdk0f0/download-1.jpg",
         date: "June 15, 2024 • 6:00 PM",
         location: "Central Park, New York",
         category: "Music",
@@ -28,7 +28,7 @@ const mockEvents = [
     {
         id: "2",
         title: "Tech Conference 2024",
-        image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80",
+        image: "https://i.ibb.co.com/hLPXRTR/images.jpg",
         date: "July 20, 2024 • 9:00 AM",
         location: "Convention Center, San Francisco",
         category: "Tech",
@@ -42,7 +42,7 @@ const mockEvents = [
     {
         id: "3",
         title: "Basketball Championship",
-        image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80",
+        image: "https://i.ibb.co.com/KVKynTg/download-2.jpg",
         date: "August 5, 2024 • 3:00 PM",
         location: "Sports Arena, Los Angeles",
         category: "Sports",
@@ -56,7 +56,7 @@ const mockEvents = [
     {
         id: "4",
         title: "Online Gaming Tournament",
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
+        image: "https://i.ibb.co.com/ZcmvWHR/download-3.jpg",
         date: "June 30, 2024 • 7:00 PM",
         location: "Online Event",
         category: "Gaming",
@@ -70,7 +70,7 @@ const mockEvents = [
     {
         id: "5",
         title: "Art Gallery Exhibition",
-        image: "https://images.unsplash.com/photo-1578926288207-a90a5366759d?w=800&q=80",
+        image: "https://i.ibb.co.com/1qPgcFk/download.jpg",
         date: "July 10, 2024 • 5:00 PM",
         location: "Modern Art Gallery, London",
         category: "Art",
@@ -84,7 +84,7 @@ const mockEvents = [
     {
         id: "6",
         title: "Travel Photography Workshop",
-        image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80",
+        image: "https://i.ibb.co.com/C5V9wFY/images-1.jpg",
         date: "August 15, 2024 • 10:00 AM",
         location: "Photography Studio, Paris",
         category: "Travel",
@@ -98,7 +98,7 @@ const mockEvents = [
     {
         id: "7",
         title: "Jazz Night Live",
-        image: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&q=80",
+        image: "https://i.ibb.co.com/rQZrsNT/images.jpg",
         date: "June 25, 2024 • 8:00 PM",
         location: "Blue Note Jazz Club, NYC",
         category: "Music",
@@ -112,7 +112,7 @@ const mockEvents = [
     {
         id: "8",
         title: "Startup Pitch Competition",
-        image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&q=80",
+        image: "https://i.ibb.co.com/ctgtQ3J/digital-design-businessman-show-growth-graph-earning-with-digital-marketing-strategy-35761-549.jpg",
         date: "July 5, 2024 • 2:00 PM",
         location: "Tech Hub, Austin",
         category: "Tech",
@@ -122,21 +122,7 @@ const mockEvents = [
             name: "Robert Lee",
             avatar: "https://i.pravatar.cc/150?img=15",
         },
-    },
-    {
-        id: "9",
-        title: "Yoga Retreat Weekend",
-        image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
-        date: "August 20, 2024 • 7:00 AM",
-        location: "Mountain Resort, Colorado",
-        category: "Sports",
-        price: "Starts from $150",
-        isPaid: true,
-        host: {
-            name: "Lisa Anderson",
-            avatar: "https://i.pravatar.cc/150?img=47",
-        },
-    },
+    }
 ];
 
 export default function EventsPage() {
@@ -149,7 +135,7 @@ export default function EventsPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [bookmarkedEvents, setBookmarkedEvents] = useState<string[]>([]);
 
-    const eventsPerPage = 9;
+    const eventsPerPage = 8;
 
     // Filter logic
     const filteredEvents = mockEvents.filter((event) => {
@@ -236,8 +222,6 @@ export default function EventsPage() {
                     </>
                 )}
             </div>
-
-            {/* <Footer /> */}
         </div>
     );
 }

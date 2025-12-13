@@ -64,10 +64,16 @@ export default function EventCard({ event }: EventCardProps) {
                     </div>
                 </div>
 
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground group/btn">
-                    Join Event
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                </Button>
+                <div className="flex items-center justify-start gap-x-5">
+                    <Button className=" bg-primary hover:bg-primary/90 text-primary-foreground group/btn">
+                        Join Event
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                    </Button>
+                    <Button className=" bg-chart-2 hover:bg-chart-2/90 text-primary-foreground group/btn">
+                        View Event
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                    </Button>
+                </div>
             </div>
         </div>
     );

@@ -9,21 +9,21 @@ const testimonials = [
     name: "Marry Jaen",
     role: "Web Designer",
     rating: 4.5,
-    img: "/images/user1.jpg",
+    img: "https://i.ibb.co.com/My9QBRrD/review02.avif",
     text: "Using Advanced Technological Infrastructure And Expert Staff, We Deliver Comprehensive Transportation Services Efficiently Services Broad With Innovation.",
   },
   {
     name: "Alen Walker",
     role: "Manager",
     rating: 4.5,
-    img: "/images/user2.jpg",
+    img: "https://i.ibb.co.com/sJHByF59/review03.avif",
     text: "Thanks To Our Advanced Technological Infrastructure And Expert Staff, We Offer Extensive Transportation Services Seamlessly.",
   },
   {
     name: "Abdur Rashid",
     role: "Founder & CEO",
     rating: 4.5,
-    img: "/images/user3.jpg",
+    img: "https://i.ibb.co.com/x9xKLGG/review04.avif",
     text: "With Our Advanced Technological Infrastructure And Expert Staff, We Offer Wide–Ranging Transportation Services Through Innovative Systems.",
   }
 ];
