@@ -26,7 +26,7 @@ import {
 import Image from "next/image";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { createEventAction } from "@/services/host/createEvent";
+import { createEventAction } from "@/services/host/hostApiService";
 
 const EVENT_CATEGORIES = [
     { value: "music", label: "Music" },
@@ -34,12 +34,7 @@ const EVENT_CATEGORIES = [
     { value: "gaming", label: "Gaming" },
     { value: "art", label: "Art & Culture" },
     { value: "business", label: "Business" },
-] as const;
-
-const EVENT_STATUS = [
-    { value: "OPEN", label: "Open" },
-    { value: "CLOSED", label: "Closed" },
-    { value: "CANCELLED", label: "Cancelled" },
+    { value: "tech", label: "Tech" },
 ] as const;
 
 export default function CreateEventForm() {
@@ -53,14 +48,13 @@ export default function CreateEventForm() {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [category, setCategory] = useState("");
-    const [status, setStatus] = useState("OPEN");
 
     useEffect(() => {
         if (state && state.success) {
             toast.success(state?.message)
             setImagePreview(null)
             setTimeout(() => {
-                router.push("/host/dashboard/my-event")
+                router.push("/host/dashboard/my-events")
             }, 1000)
         }
 
@@ -95,7 +89,7 @@ export default function CreateEventForm() {
     return (
         <form
             action={formAction}
-            encType="multipart/form-data"
+            // encType="multipart/form-data"
             className="space-y-6"
         >
             {/** -------- Hidden Data (JSON) -------- */}
@@ -104,8 +98,7 @@ export default function CreateEventForm() {
                 name="data"
                 value={JSON.stringify({
                     eventDate: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "",
-                    category,
-                    status,
+                    category
                 })}
             />
 
@@ -120,11 +113,12 @@ export default function CreateEventForm() {
                 <Textarea name="description" rows={4} required disabled={isPending} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                     <Label>Category *</Label>
-                    <Select value={category} onValueChange={setCategory}>
-                        <SelectTrigger>
+                    <Select value={category} onValueChange={setCategory} >
+                        <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                         <SelectContent>
@@ -136,79 +130,43 @@ export default function CreateEventForm() {
                         </SelectContent>
                     </Select>
                 </div>
-
-             <div className="space-y-2">
-                    <Label>Status</Label>
-                    <Select value={status} onValueChange={setStatus}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {EVENT_STATUS.map((s) => (
-                                <SelectItem key={s.value} value={s.value}>
-                                    {s.label}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                <div className="space-y-2">
+                    <Label>Event Date*</Label>
+                    <Input type="date" name="eventDate" required />
                 </div>
-            </div>
+                <div className="space-y-2">
+                    <Label>Time*</Label>
+                    <Input type="time" name="time" required />
+                </div>
 
-            {/** -------- SCHEDULE -------- */}
-           <div className="space-y-2">
-                <Label>Event Date *</Label>
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant="outline" className="w-full h-12 justify-start">
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="p-0">
-                        <Calendar
-                            mode="single"
-                            selected={selectedDate}
-                            onSelect={setSelectedDate}
-                        />
-                    </PopoverContent>
-                </Popover>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-               <div className="space-y-2">
-                    <Label>Start Time *</Label>
-                    <Input type="time" name="startTime" required />
-                </div>
-
-               <div className="space-y-2">
-                    <Label>End Time *</Label>
-                    <Input type="time" name="endTime" required />
-                </div>
-            </div>
-
-            {/** -------- LOCATION -------- */}
-            <div className="space-y-2">
-                <Label>Location *</Label>
-                <Input name="location" required />
-            </div>
-
-            {/** -------- TICKET -------- */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                    <Label>Ticket Price</Label>
-                    <Input name="ticketPrice" type="number" defaultValue={0} />
-                </div>
-
-               <div className="space-y-2">
-                    <Label>Total Seats *</Label>
-                    <Input name="totalSeats" type="number" defaultValue={100} required />
+                    <Label>Max Participant*</Label>
+                    <Input type="number" name="maxParticipants" required />
                 </div>
 
                 <div className="space-y-2">
-                    <Label>Available Seats</Label>
-                    <Input name="availableSeats" type="number" defaultValue={100} />
+                    <Label>Min Participant*</Label>
+                    <Input type="number" name="minParticipants" required />
                 </div>
+
+                <div className="space-y-2">
+                    <Label>Event Price</Label>
+                    <Input name="fee" type="number" className="" defaultValue={0} />
+                </div>
+
+
+
+                {/** -------- LOCATION -------- */}
+                <div className="space-y-2">
+                    <Label>Location *</Label>
+                    <Input name="location" required />
+                </div>
+
             </div>
+
 
             {/** -------- IMAGE UPLOAD -------- */}
             <div>

@@ -1,26 +1,35 @@
 "use client"
 
-import React, { useState } from "react";
+import { getUserInfo } from "@/services/auth/getUserInfo";
+import { promoteToHost } from "@/services/host/hostApiService";
+import { redirect } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
-// Become-a-Host-Button-UI.jsx
-// Single-file React component (Tailwind CSS) to drop into your dashboard page.
-// Features:
-// - Prominent "Become a Host" CTA button (primary and compact variants)
-// - Hover / focus states, accessible labels
-// - On-click opens an onboarding modal with benefits + quick-start steps
-// - Responsive: adjusts for mobile/tablet/desktop
 
 export default function BecomeHostButtonDashboard() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  function startOnboarding() {
+  const handleToHostRequest = async () => {
     setLoading(true);
     // Simulate a call to start onboarding (replace with real API call)
-    setTimeout(() => {
+    setTimeout(async() => {
       setLoading(false);
-      // Redirect or open deeper onboarding flow here
-      alert("Onboarding started — redirect to host setup (replace alert with navigation)");
+         const user = await getUserInfo()
+        // console.log("kire re dong koroch:",user)
+        if (user && user.email) {
+            const res = await promoteToHost(user?.email)
+            if(res.success && res.message){
+                toast.success(res.message)
+            }else{
+                toast.error(res.error.message || res.message || "your request is failed")
+            }
+            console.log(res)
+        }else{
+            toast.error("please login first before request")
+            redirect('/login')
+        }
     }, 900);
   }
 
@@ -122,7 +131,7 @@ export default function BecomeHostButtonDashboard() {
 
                 <div className="mt-3">
                   <button
-                    onClick={startOnboarding}
+                    onClick={handleToHostRequest}
                     disabled={loading}
                     className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium ${loading ? 'opacity-70 cursor-wait' : ''} bg-indigo-600 text-white`}
                   >

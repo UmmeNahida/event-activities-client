@@ -18,7 +18,7 @@ const Banner = () => {
 
                             <div className="mt-8 flex flex-wrap gap-3">
                                
-                                <Link href="/search"
+                                <Link href="/events"
                                     className="inline-flex items-center justify-center rounded-md bg-white text-sky-700 px-5 py-3 text-sm font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
                                 
                                 >

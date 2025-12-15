@@ -14,8 +14,8 @@ const RegisterForm = () => {
   console.log(state, "state");
 
   const getFieldError = (fieldName: string) => {
-    if (state && state.errors) {
-      const error = state.errors.find((err: any) => err.field === fieldName);
+    if (state && state.errors && state.errors instanceof Array) {
+      const error = state?.errors?.find((err: any) => err?.field === fieldName);
       if (error) {
         return error.message;
       } else {

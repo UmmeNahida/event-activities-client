@@ -21,7 +21,8 @@ export default async function Navbar({ role = null}:NavbarProps) {
   const defaultDashboard = getDefaultDashboardRoute(role);
 
   const userNav = [
-    { label: "My Events", href: "/my-events" },
+    { label: "My Events", href: "/user/dashboard/joined-events",  },
+    { label: "Become Host", href: "/become-host",  },
     { label: "Profile", href: defaultDashboard },
   ];
 
@@ -39,7 +40,7 @@ export default async function Navbar({ role = null}:NavbarProps) {
     { label: "My Profile", href: defaultDashboard },
   ];
 
-  console.log("user role:", role)
+  // console.log("user role:", role)
 
   let navItems = [...commonNav];
   console.log("role", role)

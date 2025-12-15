@@ -360,6 +360,7 @@ export async function changePassword(_prevState: any, formData: FormData) {
 
     try {
         // API Call
+        console.log('changePassword', JSON.stringify({new:validationPayload.newPassword, old:validationPayload.oldPassword}))
         const response = await serverFetch.post("/auth/change-password", {
             headers: {
                 "Content-Type": "application/json",

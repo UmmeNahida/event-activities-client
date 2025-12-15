@@ -22,7 +22,7 @@ interface SavedEventsTableProps {
   isLoading?: boolean;
 }
 
-export default function SavedEventsTable({
+export default function UserSavedEvent({
   savedEvents,
   isLoading = false,
 }: SavedEventsTableProps) {

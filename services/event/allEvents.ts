@@ -13,6 +13,19 @@ export async function getAllEvents(queryString?:string) {
 }
 
 
+export async function getMyEvents(queryString?:string) {
+
+  const res = await serverFetch.get(`/events/my-events${queryString ? `?${queryString}` : ""}`, {
+    next: {tags:['host-events'] },
+  });
+
+  if (!res.ok) return [];
+
+  const data = await res.json();
+  return data.data || [];
+}
+
+
 export async function paymentOverview() {
   
   const res = await serverFetch.get(`/admin/payment-overview`);

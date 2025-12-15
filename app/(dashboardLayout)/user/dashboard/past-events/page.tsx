@@ -1,8 +1,11 @@
+import PastEventsTable from '@/components/modules/User/PastEventsTable'
 import React from 'react'
 
 const PastEvents = () => {
   return (
-    <div>PastEvents</div>
+    <div>
+      <PastEventsTable/>
+    </div>
   )
 }
 

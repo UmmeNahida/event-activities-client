@@ -104,17 +104,6 @@ export const userNavItems: NavSection[] = [
                 roles: ["USER"]
             }
         ]
-    },
-    {
-        title: "Payments",
-        items: [
-            {
-                title: "My Payments",
-                href: "/user/dashboard/payments",
-                icon: "CreditCard",
-                roles: ["USER"]
-            }
-        ]
     }
 ]
 

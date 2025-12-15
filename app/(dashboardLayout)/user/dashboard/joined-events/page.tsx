@@ -1,7 +1,10 @@
+import UserJoinedEventsTable from "@/components/modules/User/UserJoined"
 
 const JoinedEvents = () => {
   return (
-    <div>JoinedEvents</div>
+    <div>
+      <UserJoinedEventsTable></UserJoinedEventsTable>
+    </div>
   )
 }
 
