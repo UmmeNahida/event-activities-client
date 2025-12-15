@@ -16,6 +16,7 @@ import {
   Legend,
 } from "recharts";
 import RefreshButton from "@/components/shared/RefreshButton";
+import { transformMonthlyEarnings } from "./TransformMonthlyEarnings";
 
 type AnalyticsResponse = {
 success:boolean;
@@ -27,7 +28,7 @@ success:boolean;
   avgRating: number;
   totalReports: number;
   revenue:number,
-  monthlyRegistrations?: Array<{ createdAt: string; _count: { id: number } }>;
+  monthlyEarnings?: Array<{ createdAt: string; _count: { id: number } }>;
  }
 };
 
@@ -56,12 +57,14 @@ export default function HostAnalytics({analyticsData}:{analyticsData:AnalyticsRe
   }, []);
 
   // prepare charts data
-  const monthlyData = (data?.monthlyRegistrations || [])
-    .map((m:any) => ({
-      name: new Date(m.createdAt).toLocaleString("default", { month: "short", year: "numeric" }),
-      users: (m as any)._count?.id || (m as any)._count || 0,
-    }))
-    .slice(-12);
+//   const monthlyData = (data?.monthlyEarnings || [])
+//     .map((m:any) => ({
+//       name: new Date(m.createdAt).toLocaleString("default", { month: "short", year: "numeric" }),
+//       users: (m as any)._count?.id || (m as any)._count || 0,
+//     }))
+//     .slice(-12);
+
+const monthlyData = transformMonthlyEarnings(data?.monthlyEarnings)
 
   const pieData = [
     { name: "Upcoming Events", value: data?.upcoming || 0 },
@@ -124,7 +127,7 @@ export default function HostAnalytics({analyticsData}:{analyticsData:AnalyticsRe
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         <Card className="h-96">
           <CardHeader>
-            <CardTitle>Monthly Registrations</CardTitle>
+            <CardTitle>Monthly Earnings Overview</CardTitle>
             <CardDescription>Last 12 months</CardDescription>
           </CardHeader>
           <CardContent className="pt-4 h-[380px]">

@@ -4,7 +4,7 @@ import { getHostAnalytics } from "@/services/host/hostApiService"
 
 const HostDashboard = async() => {
   const hostAnalytics = await getHostAnalytics()
-  console.log(hostAnalytics)
+  // console.log(hostAnalytics)
   return (
     <div>
       <HostAnalytics analyticsData={hostAnalytics}></HostAnalytics>
