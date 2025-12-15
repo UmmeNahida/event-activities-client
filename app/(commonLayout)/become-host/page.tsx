@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
@@ -23,7 +25,7 @@ export default function BecomeAHost() {
 
     const handleToHostRequest = async () => {
         const user = await getUserInfo()
-        // console.log("kire re dong koroch:",user)
+
         if (user && user.email) {
             const res = await promoteToHost(user?.email)
             if(res.success && res.message){

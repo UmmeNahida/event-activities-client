@@ -1,5 +1,6 @@
 "use client";
 
+
 import SearchFilter from "@/components/shared/SearchFilter";
 import SelectFilter from "@/components/shared/selectFilter";
 import { useSearchParams } from "next/navigation";

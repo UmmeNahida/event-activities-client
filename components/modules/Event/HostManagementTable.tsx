@@ -5,9 +5,11 @@ import { useSearchParams } from "next/navigation";
 import ManagementTable from "@/components/shared/ManagementTable";
 import SelectFilter from "@/components/shared/selectFilter";
 import SearchFilter from "@/components/shared/SearchFilter";
+export const dynamic = "force-dynamic";
+
 
 export default function HostManagementTable({ userData }: any) {
-    console.log("kire kotha kos na kn",userData)
+    // console.log("kire kotha kos na kn",userData)
   const searchParams = useSearchParams();
 
   const [users, setUsers] = useState([]);
@@ -81,7 +83,7 @@ export default function HostManagementTable({ userData }: any) {
       <ManagementTable
         data={users}
         columns={columns}
-        getRowKey={(row) => row?.id}
+        getRowKey={(row) => row}
         isRefreshing={loading}
         onView={(row) => handleView}
         onEdit={(row) => handleEdit(row)}

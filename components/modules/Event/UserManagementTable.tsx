@@ -80,7 +80,7 @@ export default function UserManagementTable({ userData }: any) {
       <ManagementTable
         data={users}
         columns={columns}
-        getRowKey={(row) => row?.id}
+        getRowKey={(row) => row}
         isRefreshing={loading}
         onView={(row) => handleView}
         onEdit={(row) => handleEdit(row)}
