@@ -21,17 +21,17 @@ type AnalyticsResponse = {
 success:boolean;
  message:string;
  data:{
-    totalUsers: number;
-  totalHosts: number;
+  upcoming: number;
   totalEvents: number;
-  activeEvents: number;
-  completedEvents: number;
+  totalParticipants: number;
+  avgRating: number;
   totalReports: number;
+  revenue:number,
   monthlyRegistrations?: Array<{ createdAt: string; _count: { id: number } }>;
  }
 };
 
-export default function AdminAnalytics({analyticsData}:{analyticsData:AnalyticsResponse}) {
+export default function HostAnalytics({analyticsData}:{analyticsData:AnalyticsResponse}) {
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,9 +41,8 @@ export default function AdminAnalytics({analyticsData}:{analyticsData:AnalyticsR
       setLoading(true);
       setError(null);
 
-      const res = analyticsData.data;
       if (!analyticsData.success) throw new Error("Failed to fetch analytics");
-      setData(analyticsData.data);
+      setData(analyticsData?.data);
       
     } catch (err: any) {
       setError(err.message || "Unknown error");
@@ -65,8 +64,8 @@ export default function AdminAnalytics({analyticsData}:{analyticsData:AnalyticsR
     .slice(-12);
 
   const pieData = [
-    { name: "Active Events", value: data?.activeEvents || 0 },
-    { name: "Completed Events", value: data?.completedEvents || 0 },
+    { name: "Upcoming Events", value: data?.upcoming || 0 },
+    { name: "Total Events", value: data?.totalEvents || 0 },
   ];
 
   const COLORS = ["#4F46E5", "#06B6D4", "#F59E0B", "#EF4444"];
@@ -75,7 +74,7 @@ export default function AdminAnalytics({analyticsData}:{analyticsData:AnalyticsR
     <div className="p-6 w-full">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-semibold">Admin Analytics</h1>
+          <h1 className="text-2xl font-semibold">Host Analytics</h1>
           <p className="text-sm text-muted-foreground">Overview of platform activity & revenue</p>
         </div>
         <div className="flex items-center gap-2">
@@ -90,18 +89,18 @@ export default function AdminAnalytics({analyticsData}:{analyticsData:AnalyticsR
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <Card className="col-span-1 bg-amber-50">
           <CardHeader>
-            <CardTitle className="text-sm">Users</CardTitle>
-            <CardDescription className="text-2xl font-bold">{loading ? "..." : data?.totalUsers ?? 0}</CardDescription>
+            <CardTitle className="text-sm">Upcoming Events</CardTitle>
+            <CardDescription className="text-2xl font-bold">{loading ? "..." : data?.upcoming ?? 0}</CardDescription>
           </CardHeader>
-          <CardContent className="pt-0 text-sm text-muted-foreground">Total registered users</CardContent>
+          <CardContent className="pt-0 text-sm text-muted-foreground">Total Upcoming Events</CardContent>
         </Card>
 
         <Card className="bg-cyan-200">
           <CardHeader>
-            <CardTitle className="text-sm">Hosts</CardTitle>
-            <CardDescription className="text-2xl font-bold">{loading ? "..." : data?.totalHosts ?? 0}</CardDescription>
+            <CardTitle className="text-sm">Participants</CardTitle>
+            <CardDescription className="text-2xl font-bold">{loading ? "..." : data?.totalParticipants ?? 0}</CardDescription>
           </CardHeader>
-          <CardContent className="pt-0 text-sm text-muted-foreground">Total approved hosts</CardContent>
+          <CardContent className="pt-0 text-sm text-muted-foreground">Total Participant Users</CardContent>
         </Card>
 
         <Card className="bg-cyan-50">

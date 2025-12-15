@@ -1,8 +1,14 @@
+import HostAnalytics from "@/components/modules/host/HostAnalytics"
+import { getHostAnalytics } from "@/services/host/hostApiService"
 
 
-const HostDashboard = () => {
+const HostDashboard = async() => {
+  const hostAnalytics = await getHostAnalytics()
+  console.log(hostAnalytics)
   return (
-    <div>HostDashboard</div>
+    <div>
+      <HostAnalytics analyticsData={hostAnalytics}></HostAnalytics>
+    </div>
   )
 }
 
