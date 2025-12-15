@@ -95,9 +95,23 @@ export async function getSingleEvents(id:string) {
 // get Analytics 
 export async function getHostAnalytics() {
     try {
-        
-
         const response = await serverFetch.get(`/host/analytics`);
+
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
+
+// get Analytics 
+export async function getHostPaymentOverview() {
+    try {
+        const response = await serverFetch.get(`/host/payment-overview`);
 
         const result = await response.json();
         return result;

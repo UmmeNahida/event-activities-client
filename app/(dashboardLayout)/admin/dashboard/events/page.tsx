@@ -3,7 +3,6 @@ import ManagementPageHeader from '@/components/shared/ManagementPageHeader'
 import RefreshButton from '@/components/shared/RefreshButton'
 import { queryStringFormatter } from '@/lib/formatters'
 import { getAllEvents } from '@/services/event/allEvents'
-import React from 'react'
 
 const EventsManagement = async({
   searchParams,

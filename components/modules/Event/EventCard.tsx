@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Calendar, MapPin, Tag, ArrowRight } from "lucide-react";
 import { Badge } from "../../ui/badge";
 import { Button } from "../../ui/button";
+import Link from "next/link";
 
 export interface Event {
     id: string;
@@ -69,10 +70,12 @@ export default function EventCard({ event }: EventCardProps) {
                         Join Event
                         <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>
-                    <Button className=" bg-chart-2 hover:bg-chart-2/90 text-primary-foreground group/btn">
+                    <Link href={`/events/${event.id}`}>
+                      <Button className=" bg-chart-2 hover:bg-chart-2/90 text-primary-foreground group/btn">
                         View Event
                         <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>
+                    </Link>
                 </div>
             </div>
         </div>

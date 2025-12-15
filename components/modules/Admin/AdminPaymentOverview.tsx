@@ -1,4 +1,3 @@
-import React from "react";
 import { TrendingUp, Clock, CheckCircle } from "lucide-react";
 import { ChartBarMultiple } from "@/components/shared/BarChart";
 
@@ -6,25 +5,25 @@ import { ChartBarMultiple } from "@/components/shared/BarChart";
 // Use inside any page: <PaymentOverview data={data} />
 // Where data = { totalRevenue, pendingAmount, successRate }
 
-export default function PaymentOverview({ data }:{data:any}) {
+export default function AdminPaymentOverview({ data }:{data:any}) {
   const cards = [
     {
       title: "Total Revenue",
-      value: `$${data.totalRevenue}`,
+      value: `$${data.totalEarnings}`,
       icon: <TrendingUp className="w-6 h-6" />,
       bg: "bg-indigo-50",
       text: "text-indigo-700",
     },
     {
       title: "Pending Amount",
-      value: `$${data.pendingAmount}`,
+      value: `$${data.pending}`,
       icon: <Clock className="w-6 h-6" />,
       bg: "bg-yellow-50",
       text: "text-yellow-700",
     },
     {
       title: "Success Rate",
-      value: `${data.successRate}%`,
+      value: `${data.avgRating}%`,
       icon: <CheckCircle className="w-6 h-6" />,
       bg: "bg-green-50",
       text: "text-green-700",

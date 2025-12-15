@@ -20,27 +20,36 @@ import {
 
 export const description = "A multiple bar chart"
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
+interface IData {
+  name:string,
+  earnings:number
+}
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "var(--chart-2)",
-  },
-} satisfies ChartConfig
+export function ChartBarMultiple({data}:any) {
 
-export function ChartBarMultiple() {
+  const test = data.map((item:IData)=>(
+    {desktop: item.earnings, month:item.name }
+  ))
+
+  // const chartData = [
+  //   { month: "January", desktop: 186 },
+  //   { month: "February", desktop: 305 },
+  //   { month: "March", desktop: 237 },
+  //   { month: "April", desktop: 73 },
+  //   { month: "May", desktop: 209 },
+  //   { month: "June", desktop: 214 },
+  // ]
+
+  const chartConfig = {
+    desktop: {
+      label: "Desktop",
+      color: "var(--chart-1)",
+    },
+    mobile: {
+      label: "Mobile",
+      color: "var(--chart-2)",
+    },
+  } satisfies ChartConfig
   return (
     <Card>
       <CardHeader>
@@ -49,7 +58,7 @@ export function ChartBarMultiple() {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart accessibilityLayer data={test}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"

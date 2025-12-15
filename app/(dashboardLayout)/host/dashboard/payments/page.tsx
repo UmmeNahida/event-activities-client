@@ -1,12 +1,12 @@
-import PaymentOverview from '@/components/modules/host/paymentOverview'
-import { paymentOverview } from '@/services/event/allEvents'
+import HostPaymentOverview from '@/components/modules/host/HostPaymentOverview'
+import { getHostPaymentOverview } from '@/services/host/hostApiService'
 
 const HostPayment = async() => {
 
-  const data = await paymentOverview()
+  const data = await getHostPaymentOverview()
   return (
     <div>
-      <PaymentOverview data={data.data}/>
+      <HostPaymentOverview data={data.data}/>
     </div>
   )
 }

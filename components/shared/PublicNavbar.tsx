@@ -27,8 +27,8 @@ export default async function Navbar({ role = null}:NavbarProps) {
   ];
 
   const hostNav = [
-    { label: "My Events (Hosted)", href: "/host/events" },
-    { label: "Create Event", href: "/host/create" },
+    { label: "My Events (Hosted)", href: "/host/dashboard/events" },
+    { label: "Create Event", href: "/host/dashboard/create-event" },
     { label: "Profile", href: defaultDashboard },
   ];
 

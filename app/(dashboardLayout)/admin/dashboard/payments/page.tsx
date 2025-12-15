@@ -1,13 +1,14 @@
-import PaymentOverview from "@/components/modules/host/paymentOverview"
+
+import AdminPaymentOverview from "@/components/modules/Admin/AdminPaymentOverview"
 import { paymentOverview } from "@/services/event/allEvents"
 
 const AdminPayment = async() => {
 
   const data = await paymentOverview()
-  console.log("payment data", data)
+  // console.log("payment data", data)
   return (
     <div>
-      <PaymentOverview data={data.data}/>
+      <AdminPaymentOverview data={data.data}/>
     </div>
   )
 }

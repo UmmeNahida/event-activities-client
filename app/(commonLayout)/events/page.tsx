@@ -12,7 +12,7 @@ import { useState } from "react";
 // Mock data - replace with actual API data
 const mockEvents = [
     {
-        id: "1",
+        id: "74d76638-9bcd-4209-8963-7f3d5536df70",
         title: "Summer Music Festival 2024",
         image: "https://i.ibb.co.com/xYdk0f0/download-1.jpg",
         date: "June 15, 2024 • 6:00 PM",
@@ -26,7 +26,7 @@ const mockEvents = [
         },
     },
     {
-        id: "2",
+        id: "74d76638-9bcd-4209-8963-7f3d5536df70",
         title: "Tech Conference 2024",
         image: "https://i.ibb.co.com/hLPXRTR/images.jpg",
         date: "July 20, 2024 • 9:00 AM",
@@ -40,8 +40,8 @@ const mockEvents = [
         },
     },
     {
-        id: "3",
-        title: "Basketball Championship",
+        id: "93f6ceb3-0814-4bc1-8569-b793a59db4d6",
+        title: "Basketball Championship 2025",
         image: "https://i.ibb.co.com/KVKynTg/download-2.jpg",
         date: "August 5, 2024 • 3:00 PM",
         location: "Sports Arena, Los Angeles",
@@ -54,7 +54,7 @@ const mockEvents = [
         },
     },
     {
-        id: "4",
+        id: "25a0e818-8a11-432f-8c80-86bacb530458",
         title: "Online Gaming Tournament",
         image: "https://i.ibb.co.com/ZcmvWHR/download-3.jpg",
         date: "June 30, 2024 • 7:00 PM",
@@ -68,7 +68,7 @@ const mockEvents = [
         },
     },
     {
-        id: "5",
+        id: "d8eb840a-6e75-4bf3-9c36-5eef9834651f",
         title: "Art Gallery Exhibition",
         image: "https://i.ibb.co.com/1qPgcFk/download.jpg",
         date: "July 10, 2024 • 5:00 PM",
@@ -82,7 +82,7 @@ const mockEvents = [
         },
     },
     {
-        id: "6",
+        id: "5b825f8d-830c-4572-82d0-6856d08cd179",
         title: "Travel Photography Workshop",
         image: "https://i.ibb.co.com/C5V9wFY/images-1.jpg",
         date: "August 15, 2024 • 10:00 AM",
@@ -96,7 +96,7 @@ const mockEvents = [
         },
     },
     {
-        id: "7",
+        id: "bc68ee03-d9a2-43f5-9d7d-30bf319f5105",
         title: "Jazz Night Live",
         image: "https://i.ibb.co.com/rQZrsNT/images.jpg",
         date: "June 25, 2024 • 8:00 PM",
@@ -110,7 +110,7 @@ const mockEvents = [
         },
     },
     {
-        id: "8",
+        id: "d1a95d79-0b45-4dcc-8070-42bdf2f7cd77",
         title: "Startup Pitch Competition",
         image: "https://i.ibb.co.com/ctgtQ3J/digital-design-businessman-show-growth-graph-earning-with-digital-marketing-strategy-35761-549.jpg",
         date: "July 5, 2024 • 2:00 PM",
