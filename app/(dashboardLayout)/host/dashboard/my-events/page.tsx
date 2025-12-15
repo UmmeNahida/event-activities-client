@@ -12,8 +12,6 @@ const MyEvents = async({
   const searchParamsObj = await searchParams;
     const queryString = queryStringFormatter(searchParamsObj);
     const myEventsData = await getMyEvents(queryString)
-    
-    // console.log("myEvents",myEventsData)
 
   return (
     <div>

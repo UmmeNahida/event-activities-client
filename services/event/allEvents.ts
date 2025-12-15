@@ -16,7 +16,7 @@ export async function getAllEvents(queryString?:string) {
 export async function getMyEvents(queryString?:string) {
 
   const res = await serverFetch.get(`/events/my-events${queryString ? `?${queryString}` : ""}`, {
-    next: {tags:['host-events'] },
+    next: {tags:['host-events']},
   });
 
   if (!res.ok) return [];

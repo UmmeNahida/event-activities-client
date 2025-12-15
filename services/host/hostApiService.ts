@@ -71,9 +71,31 @@ export const createEventAction = async (
 };
 
 
+export async function getSingleEvents(id:string) {
+    try {
+        
+
+        const response = await serverFetch.get(`/events/event-details/${id}`);
+
+        const result = await response.json();
+
+        if (result.success) {
+            revalidateTag("host-events", { expire: 0 });
+        }
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
+
+
 export async function updateMyEvents(id:string,formData: FormData) {
     try {
-        console.log("form", formData)
+        // console.log("form", formData)
         // // Create a new FormData with the data property
         const uploadFormData = new FormData();
 
@@ -95,14 +117,14 @@ export async function updateMyEvents(id:string,formData: FormData) {
         }
         console.log("upload form data:", uploadFormData)
 
-        const response = await serverFetch.patch(`/event/${id}`, {
+        const response = await serverFetch.patch(`/host/edit/${id}`, {
             body: uploadFormData,
         });
 
         const result = await response.json();
 
         if (result.success) {
-            revalidateTag("host-events", { expire: 0 });
+            revalidateTag('host-events', { expire: 0 });
         }
         return result;
     } catch (error: any) {

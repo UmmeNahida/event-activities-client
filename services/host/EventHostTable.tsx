@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import {
     ColumnDef,
     flexRender,
@@ -18,6 +18,7 @@ import {
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { MoreHorizontal, Eye, Trash2, RefreshCcw, Edit } from "lucide-react";
+import UpdateEventModal from "./UpdateEventModal";
 // import { UpdateEventForm } from "./updateEvents";
 
 // ================= types =================
@@ -38,6 +39,21 @@ export type HostEvent = {
     participants: any[];
 };
 
+ const eventDetails = {
+        id: "3",
+        name: "Basketball Championship",
+        image: "https://i.ibb.co.com/KVKynTg/download-2.jpg",
+        date: "August 5, 2024 • 3:00 PM",
+        location: "Sports Arena, Los Angeles",
+        type: "Sports",
+        price: "Starts from $30",
+        isPaid: true,
+        host: {
+            name: "Mike Johnson",
+            avatar: "https://i.pravatar.cc/150?img=33",
+        }
+    }
+
 // ================= props =================
 type HostEventsTableProps = {
     events: HostEvent[];
@@ -45,7 +61,8 @@ type HostEventsTableProps = {
 
 export default function HostEventsTable({ events }: HostEventsTableProps) {
     const [data, setData] = useState<HostEvent[]>(events);
-    const [editingEvent, setEditingEvent] = useState<HostEvent | null>(null)
+    const [open, setOpen] = useState(false);
+    const [editingEvent, setEditingEvent] = useState(eventDetails)
     const [selectedEvent, setSelectedEvent] = useState<HostEvent | null>(null);
 
     const handleDelete = (id: string) => {
@@ -53,10 +70,12 @@ export default function HostEventsTable({ events }: HostEventsTableProps) {
         setData((prev) => prev.filter((e) => e.id !== id));
     };
 
-    console.log("editingEvents:",editingEvent)
+    // console.log("editingEvents:",editingEvent)
 
-    const handleEdit = (id: string) => {
+    const handleEdit = (id: any) => {
         console.log("id", id)
+        setOpen(true)
+        setEditingEvent(id)
     }
 
     const columns: ColumnDef<HostEvent>[] = [
@@ -100,7 +119,7 @@ export default function HostEventsTable({ events }: HostEventsTableProps) {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => setEditingEvent(row.original)}>
+                        <DropdownMenuItem onClick={() => handleEdit(row.original)}>
                             <Edit className="mr-2 h-4 w-4" /> Edit Event
                         </DropdownMenuItem>
 
@@ -195,38 +214,13 @@ export default function HostEventsTable({ events }: HostEventsTableProps) {
                     )}
                 </DialogContent>
             </Dialog>
- {/* edit modal
-      <Dialog open={!!editingEvent} onOpenChange={() => setEditingEvent(null)}>
-        <DialogContent className="sm:max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Edit Event</DialogTitle>
-          </DialogHeader>
-          {editingEvent && (
-            <UpdateEventForm
-              defaultValues={{
-                name: editingEvent.name,
-                category: editingEvent.category,
-                description: editingEvent.description,
-                location: editingEvent.location,
-                date: editingEvent.date,
-                time: editingEvent.time,
-                minParticipants: editingEvent.minParticipants,
-                maxParticipants: editingEvent.maxParticipants,
-                fee: editingEvent.fee,
-                status:editingEvent.status
-              }}
-              onSubmit={(updated) => {
-                setData((prev) =>
-                  prev.map((e) =>
-                    e.id === editingEvent.id ? { ...e, ...updated } : e
-                  )
-                );
-                setEditingEvent(null);
-              }}
+
+            <UpdateEventModal
+                open={open}
+                onOpenChange={setOpen}
+                defaultValues={editingEvent}
             />
-          )}
-        </DialogContent>
-      </Dialog> */}
+
         </div>
     );
 }
