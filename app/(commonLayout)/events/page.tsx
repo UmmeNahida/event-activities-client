@@ -6,19 +6,38 @@ import EventsHeader from "@/components/modules/Event/EventHeader";
 import EventsFilters from "@/components/modules/Event/EventsFilters";
 import EventsGrid from "@/components/modules/Event/EventsGrid";
 import EventsPagination from "@/components/modules/Event/EventsPagination";
+import { IEvent } from "@/types/event-details.interface";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
+interface EventHost {
+  name: string;
+  avatar: string;
+}
+
+export interface EventType {
+  id: string;
+  name: string;
+  image: string;
+  date: string;       // e.g. "June 15, 2024 • 6:00 PM"
+  location: string;
+  type: string;       // e.g. "Music"
+  fee: string;        // e.g. "Starts from $45"
+  isPaid: boolean;
+  host: EventHost;
+}
+
+
 // Mock data - replace with actual API data
-const mockEvents = [
-    {
+const mockEvents: EventType[] = [
+   {
         id: "74d76638-9bcd-4209-8963-7f3d5536df70",
-        title: "Summer Music Festival 2024",
+        name: "Summer Music Festival 2024",
         image: "https://i.ibb.co.com/xYdk0f0/download-1.jpg",
         date: "June 15, 2024 • 6:00 PM",
         location: "Central Park, New York",
-        category: "Music",
-        price: "Starts from $45",
+        type: "Music",
+        fee: "Starts from $45",
         isPaid: true,
         host: {
             name: "John Doe",
@@ -27,12 +46,12 @@ const mockEvents = [
     },
     {
         id: "74d76638-9bcd-4209-8963-7f3d5536df70",
-        title: "Tech Conference 2024",
+        name: "Tech Conference 2024",
         image: "https://i.ibb.co.com/hLPXRTR/images.jpg",
         date: "July 20, 2024 • 9:00 AM",
         location: "Convention Center, San Francisco",
-        category: "Tech",
-        price: "Free",
+        type: "Tech",
+        fee: "Free",
         isPaid: false,
         host: {
             name: "Sarah Smith",
@@ -41,12 +60,12 @@ const mockEvents = [
     },
     {
         id: "93f6ceb3-0814-4bc1-8569-b793a59db4d6",
-        title: "Basketball Championship 2025",
+        name: "Basketball Championship 2025",
         image: "https://i.ibb.co.com/KVKynTg/download-2.jpg",
         date: "August 5, 2024 • 3:00 PM",
         location: "Sports Arena, Los Angeles",
-        category: "Sports",
-        price: "Starts from $30",
+        type: "Sports",
+        fee: "Starts from $30",
         isPaid: true,
         host: {
             name: "Mike Johnson",
@@ -55,12 +74,12 @@ const mockEvents = [
     },
     {
         id: "25a0e818-8a11-432f-8c80-86bacb530458",
-        title: "Online Gaming Tournament",
+        name: "Online Gaming Tournament",
         image: "https://i.ibb.co.com/ZcmvWHR/download-3.jpg",
         date: "June 30, 2024 • 7:00 PM",
         location: "Online Event",
-        category: "Gaming",
-        price: "Free",
+        type: "Gaming",
+        fee: "Free",
         isPaid: false,
         host: {
             name: "Alex Chen",
@@ -69,12 +88,12 @@ const mockEvents = [
     },
     {
         id: "d8eb840a-6e75-4bf3-9c36-5eef9834651f",
-        title: "Art Gallery Exhibition",
+        name: "Art Gallery Exhibition",
         image: "https://i.ibb.co.com/1qPgcFk/download.jpg",
         date: "July 10, 2024 • 5:00 PM",
         location: "Modern Art Gallery, London",
-        category: "Art",
-        price: "Free",
+        type: "Art",
+        fee: "Free",
         isPaid: false,
         host: {
             name: "Emma Wilson",
@@ -83,12 +102,12 @@ const mockEvents = [
     },
     {
         id: "5b825f8d-830c-4572-82d0-6856d08cd179",
-        title: "Travel Photography Workshop",
+        name: "Travel Photography Workshop",
         image: "https://i.ibb.co.com/C5V9wFY/images-1.jpg",
         date: "August 15, 2024 • 10:00 AM",
         location: "Photography Studio, Paris",
-        category: "Travel",
-        price: "Starts from $80",
+        type: "Travel",
+        fee: "Starts from $80",
         isPaid: true,
         host: {
             name: "David Brown",
@@ -97,12 +116,12 @@ const mockEvents = [
     },
     {
         id: "bc68ee03-d9a2-43f5-9d7d-30bf319f5105",
-        title: "Jazz Night Live",
+        name: "Jazz Night Live",
         image: "https://i.ibb.co.com/rQZrsNT/images.jpg",
         date: "June 25, 2024 • 8:00 PM",
         location: "Blue Note Jazz Club, NYC",
-        category: "Music",
-        price: "Starts from $25",
+        type: "Music",
+        fee: "Starts from $25",
         isPaid: true,
         host: {
             name: "Maria Garcia",
@@ -111,25 +130,25 @@ const mockEvents = [
     },
     {
         id: "d1a95d79-0b45-4dcc-8070-42bdf2f7cd77",
-        title: "Startup Pitch Competition",
+        name: "Startup Pitch Competition",
         image: "https://i.ibb.co.com/ctgtQ3J/digital-design-businessman-show-growth-graph-earning-with-digital-marketing-strategy-35761-549.jpg",
         date: "July 5, 2024 • 2:00 PM",
         location: "Tech Hub, Austin",
-        category: "Tech",
-        price: "Free",
+        type: "Tech",
+        fee: "Free",
         isPaid: false,
         host: {
             name: "Robert Lee",
             avatar: "https://i.pravatar.cc/150?img=15",
         },
     }
-];
+] 
 
 export default function EventsPage() {
     const pathname = usePathname()
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("All");
-    const [selectedPrice, setSelectedPrice] = useState("All");
+    const [selectedtype, setSelectedtype] = useState("All");
+    const [selectedfee, setSelectedfee] = useState("All");
     const [selectedStatus, setSelectedStatus] = useState("upcoming");
     const [sortBy, setSortBy] = useState("newest");
     const [currentPage, setCurrentPage] = useState(1);
@@ -139,19 +158,19 @@ export default function EventsPage() {
 
     // Filter logic
     const filteredEvents = mockEvents.filter((event) => {
-        const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory = selectedCategory === "All" || event.category === selectedCategory;
-        const matchesPrice =
-            selectedPrice === "All" ||
-            (selectedPrice === "Free" && !event.isPaid) ||
-            (selectedPrice === "Paid" && event.isPaid);
+        const matchesSearch = event?.name?.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchestype = selectedtype === "All" || event.type === selectedtype;
+        const matchesfee =
+            selectedfee === "All" ||
+            (selectedfee === "Free" && !event.isPaid) ||
+            (selectedfee === "Paid" && event.isPaid);
 
-        return matchesSearch && matchesCategory && matchesPrice;
+        return matchesSearch && matchestype && matchesfee;
     });
 
     // Sort logic
     const sortedEvents = [...filteredEvents].sort((a, b) => {
-        if (sortBy === "newest") return b.id.localeCompare(a.id);
+        if (sortBy === "newest") return b!.id.localeCompare(a.id);
         if (sortBy === "upcoming") return a.date.localeCompare(b.date);
         // Add more sort options as needed
         return 0;
@@ -172,8 +191,8 @@ export default function EventsPage() {
     // Reset filters
     const resetFilters = () => {
         setSearchQuery("");
-        setSelectedCategory("All");
-        setSelectedPrice("All");
+        setSelectedtype("All");
+        setSelectedfee("All");
         setSelectedStatus("upcoming");
         setSortBy("newest");
         setCurrentPage(1);
@@ -194,10 +213,10 @@ export default function EventsPage() {
 
                 {/* Filters */}
                 <EventsFilters
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                    selectedPrice={selectedPrice}
-                    setSelectedPrice={setSelectedPrice}
+                    selectedCategory={selectedtype}
+                    setSelectedCategory={setSelectedtype}
+                    selectedPrice={selectedfee}
+                    setSelectedPrice={setSelectedfee}
                     selectedStatus={selectedStatus}
                     setSelectedStatus={setSelectedStatus}
                 />
