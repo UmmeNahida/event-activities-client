@@ -12,7 +12,7 @@ import { Badge } from "../../ui/badge";
 
 interface EventsFiltersProps {
     selectedCategory: string;
-    setSelectedCategory: (category: string) => void;
+    setSelectedCategory: (category:string) => void;
     selectedPrice: string;
     setSelectedPrice: (price: string) => void;
     selectedStatus: string;

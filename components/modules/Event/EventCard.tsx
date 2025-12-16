@@ -5,20 +5,11 @@ import { Calendar, MapPin, Tag, ArrowRight } from "lucide-react";
 import { Badge } from "../../ui/badge";
 import { Button } from "../../ui/button";
 import Link from "next/link";
+import { EventType } from "@/app/(commonLayout)/events/page";
 
-export interface Event {
-    id: string;
-    title: string;
-    image: string;
-    date: string;
-    location: string;
-    category: string;
-    price: string;
-    isPaid: boolean;
-}
 
 interface EventCardProps {
-    event: Event;
+    event: EventType;
 }
 
 export default function EventCard({ event }: EventCardProps) {
@@ -28,7 +19,7 @@ export default function EventCard({ event }: EventCardProps) {
             <div className="relative h-48 overflow-hidden">
                 <Image
                     src={event.image}
-                    alt={event.title}
+                    alt={event.name}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
@@ -37,7 +28,7 @@ export default function EventCard({ event }: EventCardProps) {
                         variant={event.isPaid ? "default" : "secondary"}
                         className={event.isPaid ? "bg-accent text-accent-foreground" : "bg-primary text-primary-foreground"}
                     >
-                        {event.price}
+                        {event.fee}
                     </Badge>
                 </div>
                 <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -47,11 +38,11 @@ export default function EventCard({ event }: EventCardProps) {
             <div className="p-5 space-y-3">
                 <div className="flex items-center gap-2">
                     <Tag className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-medium text-primary">{event.category}</span>
+                    <span className="text-sm font-medium text-primary">{event.type}</span>
                 </div>
 
                 <h3 className="text-xl font-bold line-clamp-2 group-hover:text-primary transition-colors">
-                    {event.title}
+                    {event.name}
                 </h3>
 
                 <div className="space-y-2 text-sm text-muted-foreground">

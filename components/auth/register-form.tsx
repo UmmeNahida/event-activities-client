@@ -2,16 +2,19 @@
 "use client";
 
 // import { registerPatient } from "@/services/auth/registerPatient";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
-import { registerPatient } from "@/services/auth/registerUser";
+import { registerUser } from "@/services/auth/registerUser";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 
 const RegisterForm = () => {
-  const [state, formAction, isPending] = useActionState(registerPatient, null);
-  console.log(state, "state");
+  const [state, formAction, isPending] = useActionState(registerUser, null);
+  const router = useRouter()
+  // console.log(state, "state");
 
   const getFieldError = (fieldName: string) => {
     if (state && state.errors && state.errors instanceof Array) {
@@ -25,6 +28,19 @@ const RegisterForm = () => {
       return null;
     }
   };
+
+ useEffect(() => {
+  if (!state) return;
+
+  if (!state.success) {
+    toast.error(state.message || "User registration failed");
+    return;
+  }
+
+  toast.success(state.message || "User registered successfully");
+  router.push("/login");
+}, [state, router]);
+
   return (
     <form action={formAction}>
       <FieldGroup>
@@ -39,19 +55,19 @@ const RegisterForm = () => {
               </FieldDescription>
             )}
           </Field>
-          {/* Address */}
+          {/* location */}
           <Field>
-            <FieldLabel htmlFor="address">Address</FieldLabel>
+            <FieldLabel htmlFor="location">location</FieldLabel>
             <Input
-              id="address"
-              name="address"
+              id="location"
+              name="location"
               type="text"
               placeholder="123 Main St"
             />
 
-            {getFieldError("address") && (
+            {getFieldError("location") && (
               <FieldDescription className="text-red-600">
-                {getFieldError("address")}
+                {getFieldError("location")}
               </FieldDescription>
             )}
           </Field>

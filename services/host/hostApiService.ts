@@ -78,10 +78,7 @@ export async function getSingleEvents(id:string) {
         const response = await serverFetch.get(`/events/event-details/${id}`);
 
         const result = await response.json();
-
-        if (result.success) {
-            revalidateTag("host-events", { expire: 0 });
-        }
+        
         return result;
     } catch (error: any) {
         console.log(error);

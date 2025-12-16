@@ -1,7 +1,12 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
+
+import { EventType } from "@/app/(commonLayout)/events/page";
 import EventCard from "./EventCard";
+
+// interface EventGridProps {
+//   events: EventType[],
+//   loading:boolean
+// }
 
 export default function EventsGrid({ events, loading }: any) {
   if (loading) {
@@ -18,8 +23,8 @@ export default function EventsGrid({ events, loading }: any) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {events.map((event: any) => (
-        <EventCard event={event}></EventCard>
+      {events.map((event:any,inx:number) => (
+        <EventCard key={inx} event={event}></EventCard>
       ))}
     </div>
   );

@@ -13,8 +13,8 @@ export default function BecomeHostButtonDashboard() {
 
   const handleToHostRequest = async () => {
     setLoading(true);
-    // Simulate a call to start onboarding (replace with real API call)
-    setTimeout(async() => {
+    
+    setTimeout(async() => { 
       setLoading(false);
          const user = await getUserInfo()
         // console.log("kire re dong koroch:",user)

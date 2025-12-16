@@ -8,7 +8,7 @@ import React from "react"
 
  const CommonLayout = async({children}:{children:React.ReactNode})=>{
     const userInfo = (await getUserInfo()) as IUserInfo;
-    console.log("userInfo",userInfo)
+    
     return (
         <div className="min-h-screen flex flex-col">
             <PublicNavbar role={userInfo?.role}/>

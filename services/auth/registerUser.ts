@@ -5,7 +5,7 @@ import z from "zod";
 
 const registerValidationZodSchema = z.object({
     name: z.string().min(1, { message: "Name is required" }),
-    address: z.string().optional(),
+    location: z.string().optional(),
     email: z.email({ message: "Valid email is required" }),
     password: z.string().min(6, {
         error: "Password is required and must be at least 6 characters long",
@@ -21,12 +21,12 @@ const registerValidationZodSchema = z.object({
 });
 
 
-export const registerPatient = async (_currentState: any, formData: any): Promise<any> => {
+export const registerUser = async (_currentState: any, formData: any): Promise<any> => {
     try {
-        console.log(formData.get("address"));
+        // console.log(formData);
         const validationData = {
             name: formData.get('name'),
-            address: formData.get('address'),
+            location: formData.get('location'),
             email: formData.get('email'),
             password: formData.get('password'),
             confirmPassword: formData.get('confirmPassword'),
@@ -34,7 +34,7 @@ export const registerPatient = async (_currentState: any, formData: any): Promis
 
         const validatedFields = registerValidationZodSchema.safeParse(validationData);
 
-        console.log(validatedFields, "val");
+        // console.log("validation", validatedFields);
 
         if (!validatedFields.success) {
             return {
@@ -51,11 +51,10 @@ export const registerPatient = async (_currentState: any, formData: any): Promis
 
         const registerData = {
             password: formData.get('password'),
-            patient: {
                 name: formData.get('name'),
-                address: formData.get('address'),
+                location: formData.get('location'),
                 email: formData.get('email'),
-            }
+            
         }
 
         const newFormData = new FormData();
@@ -66,8 +65,6 @@ export const registerPatient = async (_currentState: any, formData: any): Promis
             method: "POST",
             body: newFormData,
         }).then(res => res.json());
-
-        console.log(res, "res");
 
         return res;
 
