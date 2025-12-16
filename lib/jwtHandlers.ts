@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { ENV } from "@/config";
 import jwt from "jsonwebtoken";
 
 export const verifyAccessToken = async (token: string) => {

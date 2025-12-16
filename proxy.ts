@@ -8,12 +8,12 @@ import {
   UserRole,
 } from "./lib/auth-utils";
 import { verifyResetPasswordToken } from "./lib/jwtHandlers";
-import { getUserInfo } from "./services/auth/getUserInfo";
 import {
   deleteCookie,
   getCookie,
 } from "./services/auth/tokenHandler";
 import { getNewAccessToken } from "./services/auth/auth.service";
+import { ENV } from "./config";
 
 // This function can be marked `async` if using `await` inside
 export async function proxy(request: NextRequest) {

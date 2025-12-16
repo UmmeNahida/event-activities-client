@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
+import { ENV } from "@/config";
 import z from "zod";
 
 const registerValidationZodSchema = z.object({

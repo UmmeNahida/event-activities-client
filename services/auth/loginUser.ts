@@ -7,6 +7,7 @@ import { parse } from "cookie";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { getDefaultDashboardRoute, isValidRedirectForRole, UserRole } from "@/lib/auth-utils";
 import { redirect } from "next/navigation";
+import { ENV } from "@/config";
 
 const loginValidationZodSchema = z.object({
     email: z.email({

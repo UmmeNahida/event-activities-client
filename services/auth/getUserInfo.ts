@@ -1,10 +1,10 @@
 "use server"
 
 import { IUserInfo } from "@/types/user.interface"
-// import { IUserInfo } from "@/types/user.interface"
 import { getCookie } from "./tokenHandler"
 import jwt from "jsonwebtoken"
 import { JwtPayload } from "jsonwebtoken"
+import { ENV } from "@/config"
 
 export const getUserInfo = async (): Promise<IUserInfo | null> => {
    try {
