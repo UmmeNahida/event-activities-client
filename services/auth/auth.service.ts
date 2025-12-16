@@ -12,8 +12,6 @@ import { deleteCookie, getCookie, setCookie } from "./tokenHandler";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export async function updateMyProfile(formData: FormData) {
     try {
-        console.log("form", formData)
-        // Create a new FormData with the data property
         const uploadFormData = new FormData();
 
         // Get all form fields except the file

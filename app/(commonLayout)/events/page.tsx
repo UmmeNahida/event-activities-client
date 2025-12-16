@@ -6,7 +6,6 @@ import EventsHeader from "@/components/modules/Event/EventHeader";
 import EventsFilters from "@/components/modules/Event/EventsFilters";
 import EventsGrid from "@/components/modules/Event/EventsGrid";
 import EventsPagination from "@/components/modules/Event/EventsPagination";
-import { IEvent } from "@/types/event-details.interface";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 

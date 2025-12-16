@@ -44,7 +44,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
             }
         }
 
-        const res = await fetch("http://localhost:5000/api/v1/auth/login", {
+        const res = await fetch("https://server-event-activity-management.onrender.com/api/v1/auth/login", {
             method: "POST",
             body: JSON.stringify(loginData),
             headers: {

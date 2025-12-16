@@ -34,7 +34,7 @@ export const registerUser = async (_currentState: any, formData: any): Promise<a
 
         const validatedFields = registerValidationZodSchema.safeParse(validationData);
 
-        // console.log("validation", validatedFields);
+        console.log("validation", validatedFields);
 
         if (!validatedFields.success) {
             return {
@@ -61,7 +61,7 @@ export const registerUser = async (_currentState: any, formData: any): Promise<a
 
         newFormData.append("data", JSON.stringify(registerData));
 
-        const res = await fetch("http://localhost:5000/api/v1/auth/register", {
+        const res = await fetch("https://server-event-activity-management.onrender.com/api/v1/auth/register", {
             method: "POST",
             body: newFormData,
         }).then(res => res.json());

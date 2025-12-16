@@ -29,6 +29,7 @@ const RegisterForm = () => {
     }
   };
 
+  console.log("state:",state)
  useEffect(() => {
   if (!state) return;
 
