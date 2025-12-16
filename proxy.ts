@@ -150,23 +150,6 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Rule 4 : User need password change
-  // if (accessToken) {
-  //     const userInfo = await getUserInfo();
-  //     if (userInfo) {
-  //         if (pathname !== "/reset-password") {
-  //             const resetPasswordUrl = new URL("/reset-password", request.url);
-  //             resetPasswordUrl.searchParams.set("redirect", pathname);
-  //             return NextResponse.redirect(resetPasswordUrl);
-  //         }
-  //         return NextResponse.next();
-  //     }
-
-  //     if (!userInfo && pathname === '/reset-password') {
-  //         return NextResponse.redirect(new URL(getDefaultDashboardRoute(userRole as UserRole), request.url));
-  //     }
-  // }
-
   // Rule 5 : User is trying to access common protected route
   if (routerOwner === "COMMON") {
     return NextResponse.next();
