@@ -2,6 +2,7 @@ import { PublicFooter } from "@/components/shared/PublicFooter";
 import PublicNavbar from "@/components/shared/PublicNavbar";
 import { getUserInfo } from "@/services/auth/getUserInfo";
 import { IUserInfo } from "@/types/user.interface";
+export const dynamic = "force-dynamic";
 
 import React from "react";
 
