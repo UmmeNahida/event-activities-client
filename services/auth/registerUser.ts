@@ -61,7 +61,7 @@ export const registerUser = async (_currentState: any, formData: any): Promise<a
 
         newFormData.append("data", JSON.stringify(registerData));
 
-        const res = await fetch("https://server-event-activity-management.onrender.com/api/v1/auth/register", {
+        const res = await fetch(`${ENV.BASE_API_URL}/auth/register`, {
             method: "POST",
             body: newFormData,
         }).then(res => res.json());

@@ -7,7 +7,7 @@ export const verifyAccessToken = async (token: string) => {
     try {
         const verifiedAccessToken = jwt.verify(
             token,
-            process.env.JWT_SECRET!
+            ENV.JWT_SECRET!
         ) as jwt.JwtPayload;
 
         return {

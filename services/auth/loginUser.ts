@@ -44,7 +44,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
             }
         }
 
-        const res = await fetch("https://server-event-activity-management.onrender.com/api/v1/auth/login", {
+        const res = await fetch(`${ENV.BASE_API_URL}/auth/login`, {
             method: "POST",
             body: JSON.stringify(loginData),
             headers: {
@@ -108,7 +108,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
             path: refreshTokenObject['Path'] || '/'
         })
 
-        const verifiedToken: JwtPayload | string = jwt.verify(accessTokenObject['accessToken'], process.env.JWT_SECRET as string);
+        const verifiedToken: JwtPayload | string = jwt.verify(accessTokenObject['accessToken'], ENV.JWT_SECRET as string);
 
         if (typeof verifiedToken === 'string') {
             throw new Error("Invalid token");
