@@ -22,6 +22,7 @@ const serverFetchHelper = async (endpoint: string, options: RequestInit): Promis
 
         },
         ...restOptions,
+        credentials:"include"
     })
 
     return response;

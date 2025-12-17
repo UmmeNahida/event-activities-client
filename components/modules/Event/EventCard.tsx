@@ -6,6 +6,10 @@ import { Badge } from "../../ui/badge";
 import { Button } from "../../ui/button";
 import Link from "next/link";
 import { EventType } from "@/app/(commonLayout)/events/page";
+import { joinedEvent } from "@/services/participants/participants-service";
+import { useRouter } from "next/navigation";
+
+
 
 
 interface EventCardProps {
@@ -13,6 +17,14 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event }: EventCardProps) {
+    const router = useRouter()
+    const handleJoinedEvent = async (id: string) => {
+        const res = await joinedEvent(id)
+        console.log("joined-events:",res)
+        router.push("/user/dashboard/joined-events")
+    }
+
+
     return (
         <div className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
             {/* Image */}
@@ -57,15 +69,15 @@ export default function EventCard({ event }: EventCardProps) {
                 </div>
 
                 <div className="flex items-center justify-start gap-x-5">
-                    <Button className=" bg-primary hover:bg-primary/90 text-primary-foreground group/btn">
+                    <Button onClick={() => handleJoinedEvent(`${event.id}`)} className=" bg-primary hover:bg-primary/90 text-primary-foreground group/btn">
                         Join Event
                         <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>
                     <Link href={`/events/${event.id}`}>
-                      <Button className=" bg-chart-2 hover:bg-chart-2/90 text-primary-foreground group/btn">
-                        View Event
-                        <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                    </Button>
+                        <Button className=" bg-chart-2 hover:bg-chart-2/90 text-primary-foreground group/btn">
+                            View Event
+                            <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                        </Button>
                     </Link>
                 </div>
             </div>
