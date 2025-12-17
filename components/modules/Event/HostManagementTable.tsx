@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import ManagementTable from "@/components/shared/ManagementTable";
+import ManagementTable, { Column } from "@/components/shared/ManagementTable";
 import SelectFilter from "@/components/shared/selectFilter";
 import SearchFilter from "@/components/shared/SearchFilter";
+import { IUserInfo } from "@/types/user.interface";
+import { deleteUser } from "@/services/event/allEvents";
+import { toast } from "sonner";
+import UserInfoModal from "@/components/shared/UserInfoModel";
+import { defaultUserInfo } from "@/components/ui/defaultUserInfo";
 export const dynamic = "force-dynamic";
 
 
@@ -12,9 +17,11 @@ export default function HostManagementTable({ userData }: any) {
     // console.log("kire kotha kos na kn",userData)
   const searchParams = useSearchParams();
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<IUserInfo[]>([]);
   const [meta, setMeta] = useState({});
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState<IUserInfo>(defaultUserInfo)
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -28,7 +35,7 @@ export default function HostManagementTable({ userData }: any) {
     fetchUsers();
   }, [searchParams]);
 
-  const columns = [
+  const columns:Column<IUserInfo>[] = [
     { header: "Name", accessor: "name", sortKey: "name" },
     { header: "Email", accessor: "email", sortKey: "email" },
     { header: "Location", accessor: "location", sortKey: "location" },
@@ -36,17 +43,17 @@ export default function HostManagementTable({ userData }: any) {
     { header: "Role", accessor: "role" },
   ];
 
-
-  const handleEdit = (row: any) => {
-    console.log("handleEdit", row)
+  const handleView = async(row: IUserInfo) => {
+    setUserInfo(row)
+    setOpen(true) 
   }
 
-  const handleView = (row: any) => {
-    console.log("handle view", row)
-  }
-
-  const handleDelete = (row: any) => {
-    console.log("handle view", row)
+  const handleDelete = async(row: IUserInfo) => {
+    const res = await deleteUser(row.id)
+    if (!res.success) {
+      toast.error(res.message || "Delete Request is failed")
+    }
+    toast.success(res.message || "User has been deleted successfully")
   }
 
   return (
@@ -83,12 +90,13 @@ export default function HostManagementTable({ userData }: any) {
       <ManagementTable
         data={users}
         columns={columns}
-        getRowKey={(row) => row}
+        getRowKey={(row: IUserInfo) => row.id}
         isRefreshing={loading}
-        onView={(row) => handleView}
-        onEdit={(row) => handleEdit(row)}
+        onView={(row) => handleView(row)}
         onDelete={(row) => handleDelete(row)}
       />
+
+      <UserInfoModal open={open} onOpenChange={setOpen} user={userInfo} />
     </div>
   );
 }

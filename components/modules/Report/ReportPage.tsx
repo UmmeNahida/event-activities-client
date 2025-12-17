@@ -3,7 +3,7 @@ import { getAllReports } from "@/services/report/report";
 
 export default async function ReportsPage() {
   const reports = await getAllReports();  // SERVER FETCH
-  console.log("reports",reports)
+  // console.log("reports",reports.data)
 
   return (
     <div className="p-6">

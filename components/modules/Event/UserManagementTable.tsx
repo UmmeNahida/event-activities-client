@@ -2,16 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import ManagementTable from "@/components/shared/ManagementTable";
+import ManagementTable, { Column } from "@/components/shared/ManagementTable";
 import SelectFilter from "@/components/shared/selectFilter";
 import SearchFilter from "@/components/shared/SearchFilter";
+import HostApprovalModal from "../Admin/HostApprovalModal";
+import { approveHostRequest, deleteUser, rejectHostRequest } from "@/services/event/allEvents";
+import { toast } from "sonner";
+import { IUserInfo } from "@/types/user.interface";
 
 export default function UserManagementTable({ userData }: any) {
   const searchParams = useSearchParams();
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<IUserInfo[]>([]);
   const [meta, setMeta] = useState({});
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [userId, setUserId] = useState("")
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -25,25 +31,75 @@ export default function UserManagementTable({ userData }: any) {
     fetchUsers();
   }, [searchParams]);
 
-  const columns = [
-    { header: "Name", accessor: "name", sortKey: "name" },
-    { header: "Email", accessor: "email", sortKey: "email" },
-    { header: "Location", accessor: "location", sortKey: "location" },
-    { header: "Status", accessor: "userStatus", sortKey: "userStatus" },
-    { header: "Role", accessor: "role" },
+  // const columns = [
+  //   { header: "Name", accessor: "name", sortKey: "name" },
+  //   { header: "Email", accessor: "email", sortKey: "email" },
+  //   { header: "Location", accessor: "location", sortKey: "location" },
+  //   { header: "Status", accessor: "userStatus", sortKey: "userStatus" },
+  //   { header: "Role", accessor: "role" },
+  // ];
+
+
+  const columns: Column<IUserInfo>[] = [
+    {
+      header: "Name",
+      accessor: "name",
+      sortKey: "name",
+    },
+    {
+      header: "Email",
+      accessor: "email",
+      sortKey: "email",
+    },
+    {
+      header: "Location",
+      accessor: "location",
+      sortKey: "location",
+    },
+    {
+      header: "Status",
+      accessor: "userStatus",
+      sortKey: "userStatus",
+    },
+    {
+      header: "Role",
+      accessor: "role",
+    },
   ];
 
 
-  const handleEdit = (row: any) => {
-    console.log("handleEdit", row)
+
+  const handleEdit = (row: IUserInfo) => {
+    setOpen(true)
+    setUserId(row.id)
   }
 
-  const handleView = (row: any) => {
-    console.log("handle view", row)
+
+  const handleDelete = async(row: IUserInfo) => {
+    const res = await deleteUser(row.id)
+    if (!res.success) {
+      toast.error(res.message || "Delete Request is failed")
+    }
+    toast.success(res.message || "User has been deleted successfully")
   }
 
-  const handleDelete = (row: any) => {
-    console.log("handle view", row)
+
+  const handleOnApprove = async () => {
+    const res = await approveHostRequest(userId)
+    if (!res.success) {
+      toast.error(res.message || "Request is failed")
+    }
+    toast.success(res.message || "User has been be a host successfully")
+    setOpen(false)
+  }
+
+  const handleOnReject = async () => {
+    const res = await rejectHostRequest(userId)
+    if (!res.success) {
+      toast.error(res.message || "Reject Request is failed")
+    }
+    toast.success(res.message || "User Request has been Rejected successfully")
+    setOpen(false)
   }
 
   return (
@@ -77,14 +133,20 @@ export default function UserManagementTable({ userData }: any) {
       </div>
 
 
-      <ManagementTable
+      <ManagementTable<IUserInfo>
         data={users}
         columns={columns}
-        getRowKey={(row) => row}
+        getRowKey={(row: IUserInfo) => row.id}
         isRefreshing={loading}
-        onView={(row) => handleView}
         onEdit={(row) => handleEdit(row)}
         onDelete={(row) => handleDelete(row)}
+      />
+
+      <HostApprovalModal
+        open={open}
+        onOpenChange={setOpen}
+        onApprove={handleOnApprove}
+        onReject={handleOnReject}
       />
     </div>
   );

@@ -15,6 +15,7 @@ const UserManagement = async({
 
   return (
     <div>
+      <h1 className='text-2xl mb-10'>User Management</h1>
         <UserManagementTable userData={usersData} />
     </div>
   )

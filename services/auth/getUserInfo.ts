@@ -1,12 +1,12 @@
 "use server"
 
-import { IUserInfo } from "@/types/user.interface"
+import {IVerifiedUser } from "@/types/user.interface"
 import { getCookie } from "./tokenHandler"
 import jwt from "jsonwebtoken"
 import { JwtPayload } from "jsonwebtoken"
 import { ENV } from "@/config"
 
-export const getUserInfo = async (): Promise<IUserInfo | null> => {
+export const getUserInfo = async (): Promise<IVerifiedUser | null> => {
    try {
       const accessToken = await getCookie("accessToken")
 
@@ -21,7 +21,7 @@ export const getUserInfo = async (): Promise<IUserInfo | null> => {
         return null
    }
 
-   const userInfo: IUserInfo ={
+   const userInfo: IVerifiedUser ={
          name: varifiedToken.name || "unknown name",
          email: varifiedToken.email,
          role: varifiedToken.role

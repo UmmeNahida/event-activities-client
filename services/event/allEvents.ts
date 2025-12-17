@@ -1,3 +1,5 @@
+"use server";
+
 import { serverFetch } from "@/lib/server-fetch";
 import { revalidateTag } from "next/cache";
 
@@ -57,7 +59,7 @@ export async function adminGetHosts(query: any) {
 
 export const updateHostStatus = async (id: string, status: string) => {
 
-  const res = await serverFetch.patch(`/hosts/status/${id}`, {
+  const res = await serverFetch.patch(`/admin/hosts/status/${id}`, {
     headers: {
       "content-type": "application-json"
     },
@@ -75,7 +77,7 @@ export const updateHostStatus = async (id: string, status: string) => {
 export const approveHostRequest = async (id: string) => {
 
   try {
-    const res = await serverFetch.patch(`/approve-host/${id}`, {
+    const res = await serverFetch.patch(`/admin/approve-host/${id}`, {
       headers: {
         "content-type": "application-json"
       }
@@ -100,7 +102,7 @@ export const approveHostRequest = async (id: string) => {
 export const rejectHostRequest = async (id: string) => {
 
   try {
-    const res = await serverFetch.patch(`/reject-host/${id}`, {
+    const res = await serverFetch.patch(`/admin/reject-host/${id}`, {
       headers: {
         "content-type": "application-json"
       }
@@ -154,6 +156,27 @@ export async function updateMyProfile(formData: FormData) {
       revalidateTag("user-info", { expire: 0 });
     }
     return result;
+  } catch (error: any) {
+    return {
+      success: false,
+      message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+    };
+  }
+}
+
+
+export async function deleteUser(id:string) {
+  try {
+
+    const res = await serverFetch.delete(`/admin/users/delete/${id}`)
+
+    const result = await res.json()
+
+    if (result.success) {
+      revalidateTag("all-users", { expire: 0 });
+    }
+
+    return result
   } catch (error: any) {
     return {
       success: false,

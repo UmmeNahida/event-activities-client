@@ -28,12 +28,20 @@ import {
   TableRow,
 } from "../ui/table";
 
+// export interface Column<T> {
+//   header: string;
+//   accessor: keyof T | ((row: T) => React.ReactNode);
+//   className?: string;
+//   sortKey?: string;
+// }
+
 export interface Column<T> {
   header: string;
   accessor: keyof T | ((row: T) => React.ReactNode);
   className?: string;
-  sortKey?: string;
+  sortKey?: Extract<keyof T, string>;
 }
+
 
 interface ManagementTableProps<T> {
   data: T[];
@@ -46,9 +54,6 @@ interface ManagementTableProps<T> {
   isRefreshing?: boolean;
 }
 
-// const ManagementTable<T> = (props: ManagementTableProps<T>) => {
-//   return <div>ManagementTable</div>;
-// };
 
 function ManagementTable<T>({
   data = [],
@@ -135,7 +140,7 @@ function ManagementTable<T>({
                 </TableHead>
               ))}
               {hasActions && (
-                <TableHead className="w-[70px]">Actions</TableHead>
+                <TableHead className="w-16">Actions</TableHead>
               )}
             </TableRow>
           </TableHeader>
