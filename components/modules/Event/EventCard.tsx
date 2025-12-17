@@ -8,6 +8,7 @@ import Link from "next/link";
 import { EventType } from "@/app/(commonLayout)/events/page";
 import { joinedEvent } from "@/services/participants/participants-service";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 
 
@@ -18,11 +19,27 @@ interface EventCardProps {
 
 export default function EventCard({ event }: EventCardProps) {
     const router = useRouter()
+
     const handleJoinedEvent = async (id: string) => {
-        const res = await joinedEvent(id)
-        console.log("joined-events:",res)
-        router.push("/user/dashboard/joined-events")
-    }
+        const res = await joinedEvent(id);
+
+        if (!res?.success) {
+            toast.error(res?.message || "Failed to join");
+            return;
+        }
+
+        toast.success(res.message);
+
+        // Paid event → Stripe
+        if (res.paymentUrl) {
+            window.location.href = res.paymentUrl;
+            return;
+        }
+
+        // Free event
+        router.push("/user/dashboard/joined-events");
+    };
+
 
 
     return (

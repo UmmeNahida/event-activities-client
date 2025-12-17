@@ -33,10 +33,9 @@ export default async function Navbar({ role = null}:NavbarProps) {
   ];
 
   const adminNav = [
-    { label: "Admin Dashboard", href: "/admin" },
-    { label: "Manage Users", href: "/admin/users" },
-    { label: "Manage Hosts", href: "/admin/hosts" },
-    { label: "Manage Events", href: "/admin/events" },
+    { label: "Manage Users", href: "/admin/dashboard/users" },
+    { label: "Manage Hosts", href: "/admin/dashboard/hosts" },
+    { label: "Manage Events", href: "/admin/dashboard/events" },
     { label: "My Profile", href: defaultDashboard },
   ];
 

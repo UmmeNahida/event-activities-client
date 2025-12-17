@@ -32,27 +32,22 @@ export async function addReview(payload: addReviewPayload) {
 }
 
 
-export async function joinedEvent(id:string) {
-  let data;
+export async function joinedEvent(id: string) {
   try {
-    const res = await serverFetch.post(`/participants/joint-event/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-
+    const res = await serverFetch.post(`/participants/joint-event/${id}`);
     const result = await res.json();
-    if (!result.success && result.message) {
-        throw new Error(result.message)
+
+    if (!result.success) {
+      return { success: false, message: result.message };
     }
 
-    if(result.success && result.message){
-      toast.success(result.message)
-    }
-     data = result;
-  } catch (err) {
-    toast.error((err as Error).message)
-  }finally{
-    return data
+    return {
+      success: true,
+      message: result.message,
+      paymentUrl: result.data?.paymentUrl ?? null,
+      isPaidEvent: !!result.data?.paymentData,
+    };
+  } catch (e) {
+    return { success: false, message: "Server error" };
   }
 }
