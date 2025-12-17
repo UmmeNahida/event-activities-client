@@ -28,19 +28,19 @@ import {
   TableRow,
 } from "../ui/table";
 
-// export interface Column<T> {
-//   header: string;
-//   accessor: keyof T | ((row: T) => React.ReactNode);
-//   className?: string;
-//   sortKey?: string;
-// }
-
 export interface Column<T> {
   header: string;
   accessor: keyof T | ((row: T) => React.ReactNode);
   className?: string;
-  sortKey?: Extract<keyof T, string>;
+  sortKey?: string;
 }
+
+// export interface Column<T> {
+//   header: string;
+//   accessor: keyof T | ((row: T) => React.ReactNode);
+//   className?: string;
+//   sortKey?: Extract<keyof T, string>;
+// }
 
 
 interface ManagementTableProps<T> {

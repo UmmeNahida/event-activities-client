@@ -35,12 +35,12 @@ export default function UserSavedEvent({
     {
       header: "Event Title",
       accessor: (row) => row.event?.name || "N/A",
-      sortKey: "title",
+      sortKey: "event.name",
     },
     {
       header: "Location",
       accessor: (row) => row.event?.location || "N/A",
-      sortKey: "location",
+      sortKey: "event.location",
     },
     {
       header: "Saved At",
