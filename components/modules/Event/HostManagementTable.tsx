@@ -14,7 +14,6 @@ export const dynamic = "force-dynamic";
 
 
 export default function HostManagementTable({ userData }: any) {
-    // console.log("kire kotha kos na kn",userData)
   const searchParams = useSearchParams();
 
   const [users, setUsers] = useState<IUserInfo[]>([]);
@@ -22,6 +21,8 @@ export default function HostManagementTable({ userData }: any) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [userInfo, setUserInfo] = useState<IUserInfo>(defaultUserInfo)
+
+
 
   const fetchUsers = async () => {
     setLoading(true);

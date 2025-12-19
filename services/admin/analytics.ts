@@ -8,6 +8,22 @@ export const analyticsData = async () => {
 }
 
 
+export async function getAdminPaymentOverview() {
+    try {
+        const response = await serverFetch.get(`/admin/payment-overview`);
+
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
+
+
 
 
 

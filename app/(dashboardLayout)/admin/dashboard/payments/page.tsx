@@ -1,11 +1,12 @@
 
 import AdminPaymentOverview from "@/components/modules/Admin/AdminPaymentOverview"
-import { paymentOverview } from "@/services/event/allEvents"
+import { getAdminPaymentOverview } from "@/services/admin/analytics"
+
 
 const AdminPayment = async() => {
 
-  const data = await paymentOverview()
-  // console.log("payment data", data)
+  const data = await getAdminPaymentOverview()
+
   return (
     <div>
       <AdminPaymentOverview data={data.data}/>

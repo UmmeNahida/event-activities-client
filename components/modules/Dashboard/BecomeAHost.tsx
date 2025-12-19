@@ -17,7 +17,6 @@ export default function BecomeHostButtonDashboard() {
     setTimeout(async() => { 
       setLoading(false);
          const user = await getUserInfo()
-        // console.log("kire re dong koroch:",user)
         if (user && user.email) {
             const res = await promoteToHost(user?.email)
             if(res.success && res.message){

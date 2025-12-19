@@ -11,7 +11,6 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const userInfo = await getUserInfo();
-  console.log("userInfo", userInfo);
   return (
     <>
       <Head>

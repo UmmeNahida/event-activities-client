@@ -27,13 +27,6 @@ export async function getMyEvents(queryString?: string) {
   return data.data || [];
 }
 
-export async function paymentOverview() {
-
-  const res = await serverFetch.get(`/admin/payment-overview`);
-
-  if (!res.ok) return { data: [], meta: {} };
-  return await res.json();
-}
 
 export async function adminGetUsers(query: any) {
   const qs = new URLSearchParams(query).toString();
@@ -144,7 +137,6 @@ export async function updateMyProfile(formData: FormData) {
     if (file && file instanceof File && file.size > 0) {
       uploadFormData.append('file', file);
     }
-    console.log("upload form data:", uploadFormData)
 
     const response = await serverFetch.patch(`/users/update-my-profile`, {
       body: uploadFormData,

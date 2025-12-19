@@ -60,7 +60,6 @@ export const createEventAction = async (
             errors: {},
         };
     } catch (err: any) {
-        console.error("EVENT ERROR:", err);
 
         return {
             success: false,

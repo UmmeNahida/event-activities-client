@@ -42,7 +42,7 @@ export function ChartBarMultiple({data}:any) {
 
   const chartConfig = {
     desktop: {
-      label: "Desktop",
+      label: "Payment",
       color: "var(--chart-1)",
     },
     mobile: {

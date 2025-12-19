@@ -63,7 +63,6 @@ export default function UserSavedEvent({
 
   const handleUnsave = async (row: SavedEvent) => {
     const res = await unsaveEventAction(row.eventId);
-    console.log("res",res)
     if (res!.success) {
       toast.success(res.message || "Event has been unsave")
       router.refresh();

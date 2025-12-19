@@ -54,7 +54,6 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         })
 
         const result = await res.json();
-        console.log("result;",result)
 
         if(!result.success){
             throw new Error(result.message);

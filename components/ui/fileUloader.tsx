@@ -22,7 +22,6 @@ export default function FileUploader() {
     setFile(null);
     if (inputRef.current) inputRef.current.value = "";
   };
-  console.log("fileUpload", file)
 
   return (
     <div className="flex items-center space-x-5 p-3">

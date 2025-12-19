@@ -37,7 +37,6 @@ export default function UpdateEventModal({
     startTransition(async () => {
       const result = await updateMyEvents(defaultValues?.id,formData);
       
-      console.log("result:", result)
       if(result.success){
         toast.success(result.message || "your events updated successfully")
       }

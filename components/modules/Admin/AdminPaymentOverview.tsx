@@ -1,5 +1,6 @@
 import { TrendingUp, Clock, CheckCircle } from "lucide-react";
 import { ChartBarMultiple } from "@/components/shared/BarChart";
+import { transformMonthlyEarnings } from "../host/TransformMonthlyEarnings";
 
 // Beautiful Payment Overview UI (React + Tailwind)
 // Use inside any page: <PaymentOverview data={data} />
@@ -9,26 +10,28 @@ export default function AdminPaymentOverview({ data }:{data:any}) {
   const cards = [
     {
       title: "Total Revenue",
-      value: `$${data.totalEarnings}`,
+      value: `$${data.totalRevenue}`,
       icon: <TrendingUp className="w-6 h-6" />,
       bg: "bg-indigo-50",
       text: "text-indigo-700",
     },
     {
       title: "Pending Amount",
-      value: `$${data.pending}`,
+      value: `$${data.pendingAmount}`,
       icon: <Clock className="w-6 h-6" />,
       bg: "bg-yellow-50",
       text: "text-yellow-700",
     },
     {
       title: "Success Rate",
-      value: `${data.avgRating}%`,
+      value: `${data.successRate}%`,
       icon: <CheckCircle className="w-6 h-6" />,
       bg: "bg-green-50",
       text: "text-green-700",
     },
   ];
+
+  const monthlyData = transformMonthlyEarnings(data?.monthlyEarnings)
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
@@ -51,7 +54,7 @@ export default function AdminPaymentOverview({ data }:{data:any}) {
           ))}
         </div>
 
-        <ChartBarMultiple></ChartBarMultiple>
+        <ChartBarMultiple data={monthlyData}></ChartBarMultiple>
 
         {/* Progress Bar Section
         <div className="mt-10 bg-white border rounded-2xl p-6 shadow">

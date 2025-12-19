@@ -39,10 +39,8 @@ export default async function Navbar({ role = null}:NavbarProps) {
     { label: "My Profile", href: defaultDashboard },
   ];
 
-  // console.log("user role:", role)
 
   let navItems = [...commonNav];
-  console.log("role", role)
 
   if (role === null || undefined) navItems.push({ label: "Become a Host", href: "/become-host" });
   if (role === null || undefined) navItems.push({ label: "Login", href: "/login" }, { label: "Register", href: "/register" });

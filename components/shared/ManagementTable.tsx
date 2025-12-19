@@ -107,7 +107,6 @@ function ManagementTable<T>({
     );
   };
 
-  console.log("management",data)
   return (
     <>
       <div className="rounded-lg border relative">

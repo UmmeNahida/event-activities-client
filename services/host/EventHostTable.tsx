@@ -70,10 +70,9 @@ export default function HostEventsTable({ events }: HostEventsTableProps) {
         setData((prev) => prev.filter((e) => e.id !== id));
     };
 
-    // console.log("editingEvents:",editingEvent)
+ 
 
     const handleEdit = (id: any) => {
-        console.log("id", id)
         setOpen(true)
         setEditingEvent(id)
     }
