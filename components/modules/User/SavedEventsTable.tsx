@@ -44,7 +44,6 @@ export default function SavedEventsTable() {
   return (
     <Card className="rounded-2xl shadow-md">
       <CardContent className="p-4">
-        <h2 className="text-xl font-semibold mb-4">Saved Events</h2>
 
         {/* Desktop Table */}
         <div className="hidden md:block overflow-x-auto">
