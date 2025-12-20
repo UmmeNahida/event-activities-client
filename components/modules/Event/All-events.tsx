@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 
@@ -23,9 +24,9 @@ export default function EventsPage({getAllEventsData}:any) {
     setLoading(false);
   };
 
-  useEffect(() => {
-    fetchEvents();
-  }, [searchParams]);
+  // useEffect(() => {
+  //   fetchEvents();
+  // }, [searchParams]);
 
   return (
     <div className="container mx-auto px-4 py-10">
