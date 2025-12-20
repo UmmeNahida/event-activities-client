@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { EventType } from "@/app/(commonLayout)/events/page";
 import EventCard from "./EventCard";
 
 // interface EventGridProps {

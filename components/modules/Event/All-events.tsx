@@ -1,38 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-
 import SearchFilter from "@/components/shared/SearchFilter";
 import SelectFilter from "@/components/shared/selectFilter";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import EventsGrid from "./EventsGrid";
 import Pagination from "./pagination";
 
-
-export default function EventsPage({getAllEventsData}:any) {
-  const searchParams = useSearchParams();
-  const [events, setEvents] = useState([]);
-  const [meta, setMeta] = useState({ total: 0, page: 1, limit: 12 });
-  const [loading, setLoading] = useState(false);
-
-  const fetchEvents = async () => {
-    setLoading(true)
-
-    setEvents(getAllEventsData?.data || []);
-    setMeta(getAllEventsData?.meta);
-    setLoading(false);
-  };
-
-  // useEffect(() => {
-  //   fetchEvents();
-  // }, [searchParams]);
+export default function EventsPage({ getAllEventsData }: any) {
 
   return (
     <div className="container mx-auto px-4 py-10">
       {/* Filters */}
       <div className="flex items-center justify-start gap-5 mb-8">
-        <SearchFilter placeholder="Search events..." paramName="searchTerm" />
+        <SearchFilter
+          placeholder="Search events..."
+          paramName="searchTerm"
+        />
 
         <SelectFilter
           paramName="type"
@@ -70,10 +53,10 @@ export default function EventsPage({getAllEventsData}:any) {
       </div>
 
       {/* Events List */}
-      <EventsGrid events={events} loading={loading} />
+      <EventsGrid events={getAllEventsData.data} />
 
       {/* Pagination */}
-      <Pagination meta={meta} />
+      <Pagination meta={getAllEventsData.meta} />
     </div>
   );
 }

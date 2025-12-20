@@ -26,6 +26,7 @@ const PastEvents = async ({
         </div>
       </div>
       <PastEventsTable passedEvents={getPassedEvent.data} />
+      
     </div>
   );
 };
