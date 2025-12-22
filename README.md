@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎉 Event Management Platform
 
-## Getting Started
+🔗 **Live URL:** https://event-activity-client.vercel.app 
+📦 **Backend API:** https://server-event-activity-management.onrender.com  
 
-First, run the development server:
+A full-stack Event Management Platform where users can discover events, hosts can create and manage events, and admins can monitor the entire system with analytics and controls.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 👤 User Features
+- User registration & authentication (JWT based)
+- Browse & search events by:
+  - Category / Type
+  - Date & Time
+  - Location
+  - Fee range
+- Join / leave events
+- Save events for later
+- View upcoming & past events
+- Add reviews for attended events
+- View event-wise reviews
+- Personalized event recommendations
+- Profile management
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### 🎤 Host Features
+- Create, update, cancel & complete events
+- Upload event images (Cloudinary / ImgBB)
+- Manage participants
+- View:
+  - My Events
+  - Event analytics
+  - Earnings & payments
+- View received reviews & ratings
+- Host dashboard analytics
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🛡️ Admin Features
+- User & Host management
+- Approve / reject host requests
+- Suspend / reactivate users
+- Event moderation
+- View reported events & users
+- Platform-wide analytics (real-time)
+- Revenue & payment overview
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧠 Smart Systems
+- Advanced search & filtering
+- Trending events (engagement score)
+- Nearby events (GPS-based)
+- Top-rated events
+- AI-based event recommendations
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧩 Technology Stack
+
+### Frontend
+- **Next.js (App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **ShadCN UI**
+- **Recharts** (Charts & Analytics)
+
+---
+
+### Backend
+- **Node.js**
+- **Express.js**
+- **Prisma ORM**
+- **PostgreSQL**
+- **JWT Authentication**
+
+---
+
+### Others
+- Image Upload: **Cloudinary / ImgBB**
+- Pagination & Filtering
+- Role-based Access Control (User / Host / Admin)
+
+---
+
+## 📁 Project Architecture
+
