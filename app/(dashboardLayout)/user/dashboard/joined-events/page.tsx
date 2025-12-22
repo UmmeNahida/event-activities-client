@@ -1,12 +1,15 @@
 import JoinedEventsTable from "@/components/modules/Tables/JoinedEventsTable";
-import UserJoinedEventsTable from "@/components/modules/User/UserJoined";
 import ClearFiltersButton from "@/components/shared/ClearFiltersButton";
 import ManagementPageHeader from "@/components/shared/ManagementPageHeader";
 import RefreshButton from "@/components/shared/RefreshButton";
+import { queryStringFormatter } from "@/lib/formatters";
 import { getJoinedEvents } from "@/services/participants/participants-service";
 
-const JoinedEvents = async () => {
-  const joinedEvents = await getJoinedEvents();
+const JoinedEvents = async ({searchParams}:{searchParams: Promise<{ [key:string]: string | string[] | undefined}>}) => {
+
+  const searchParamsObj = await searchParams;
+  const queryString = queryStringFormatter(searchParamsObj)
+  const joinedEvents = await getJoinedEvents(queryString);
   return (
     <div>
       {/* <UserJoinedEventsTable></UserJoinedEventsTable> */}

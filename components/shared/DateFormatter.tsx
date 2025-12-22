@@ -1,5 +1,6 @@
-export const dateFormatter = async (date: string) => {
+export const dateFormatter = (date: string) => {
   const eventDate = new Date(date);
+
   const formattedDate = eventDate.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",

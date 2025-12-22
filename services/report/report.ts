@@ -1,21 +1,50 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { serverFetch } from "@/lib/server-fetch";
 import { revalidateTag } from "next/cache";
 
-
-
-export async function createReport() {
-
-  const res = await serverFetch.post(`/users/create-report`);
-
-  if (!res.ok) return [];
-
-  const data = await res.json();
-  return data.data || [];
+interface ActionResponse<T> {
+  success: boolean;
+  message: string;
+  data?: T;
 }
 
+export async function createReport(
+  payload: any
+): Promise<ActionResponse<null>> {
+  try {
+    const res = await serverFetch.post(`/users/create-report`, {
+      headers: {
+      "Content-Type": "application/json",
+    },
+       body: JSON.stringify(payload),
+    });
 
+    const result = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: result.message || "Report creation failed",
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message || "Report submitted successfully",
+    };
+  } catch (error:any) {
+    return {
+      success: false,
+      message: `${
+        process.env.NODE_ENV === "development"
+          ? error.message
+          : "Something went wrong"
+      }`,
+    };
+  }
+}
 
 // Load single report for View Modal
 export async function getSingleReport(id: string) {
@@ -40,7 +69,7 @@ export async function reportAction(id: string, action: string) {
     );
 
     const data = await res.json();
-    revalidateTag("all-reports",{expire:0});
+    revalidateTag("all-reports", { expire: 0 });
     return data;
   } catch (error: any) {
     console.error(error);
@@ -54,14 +83,11 @@ export async function reportAction(id: string, action: string) {
   }
 }
 
-
 // Load all reports
 export async function getAllReports() {
-  const res = await serverFetch.get(`/admin-report/reports`,{
-    next:{tags:["all-reports"]}
+  const res = await serverFetch.get(`/admin-report/reports`, {
+    next: { tags: ["all-reports"] },
   });
   const data = await res.json();
   return data;
 }
-
-

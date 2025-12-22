@@ -41,6 +41,8 @@ const  SelectFilter = ({
       router.push(`?${params.toString()}`);
     });
   };
+
+  console.log("placeholder:",placeholder)
   return (
     <Select
       value={currentValue}

@@ -7,7 +7,6 @@ import { getSavedEvents } from "@/services/savedEvents/savedEventActions";
 
 const SavedEvents = async () => {
   const saveEvents = await getSavedEvents();
-  console.log("saveEvent:", saveEvents.data)
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between mb-5">
@@ -17,7 +16,7 @@ const SavedEvents = async () => {
           <ClearFiltersButton />
         </div>
       </div>
-      <SavedEventsTable />
+      <SavedEventsTable saveEvents={saveEvents.data} />
     </div>
   );
 };

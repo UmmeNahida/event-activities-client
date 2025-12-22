@@ -6,9 +6,10 @@ import { Badge } from "../../ui/badge";
 import { Button } from "../../ui/button";
 import Link from "next/link";
 import { EventType } from "@/app/(commonLayout)/events/page";
-import { joinedEvent } from "@/services/participants/participants-service";
+// import { joinedEvent } from "@/services/participants/participants-service";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { joinedEvent } from "@/services/participants/participants-service";
 
 
 

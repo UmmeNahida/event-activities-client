@@ -24,18 +24,40 @@ export async function getSavedEvents() {
 }
 
 export async function saveEvent(eventId: string) {
-  const res = await serverFetch.post(`/saved-events/add/${eventId}`);
-  const result = await res.json();
-  if (!res.ok) throw new Error("Failed to save");
-  return result;
+  try {
+    const res = await serverFetch.post(
+      `/saved-events/add/${eventId}`
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return {
+      success: false,
+      message: `${
+        process.env.NODE_ENV === "development"
+          ? error.message
+          : "Something went wrong"
+      }`,
+    };
+  }
 }
 
 export async function unsaveEventAction(eventId: string) {
-  const res = await serverFetch.delete(
-    `/saved-events/remove/${eventId}`
-  );
-  const result = await res.json();
+  try {
+    const res = await serverFetch.delete(
+      `/saved-events/remove/${eventId}`
+    );
+    const result = await res.json();
 
-  if (!res.ok) throw new Error("Failed to unsave");
-  return result;
+    return result;
+  } catch (error: any) {
+    return {
+      success: false,
+      message: `${
+        process.env.NODE_ENV === "development"
+          ? error.message
+          : "Something went wrong"
+      }`,
+    };
+  }
 }

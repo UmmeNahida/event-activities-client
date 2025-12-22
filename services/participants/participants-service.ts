@@ -14,7 +14,7 @@ export async function addReview(payload: addReviewPayload) {
   try {
     const res = await serverFetch.post(`/participants/add-review`, {
       headers: {
-        "Content-Type": "application/json",
+        "content-type": "application/json",
       },
       body: JSON.stringify(payload),
     });
@@ -78,7 +78,7 @@ export async function getJoinedEvents(queryString?:string) {
 // get my passed event
 export async function getPassedEvents(queryString?:string) {
   try {
-    const res = await serverFetch.get(`/participants/joined-event${queryString ? `?${queryString}` : ""}`, {
+    const res = await serverFetch.get(`/participants/passed-event${queryString ? `?${queryString}` : ""}`, {
       next: { revalidate: 0 },
     });
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import ManagementTable from "@/components/shared/ManagementTable";
@@ -9,6 +10,7 @@ import { joinedEventsColumns } from "../columns/joined-events-columns";
 import { useState } from "react";
 import SelectFilter from "@/components/shared/selectFilter";
 import SearchFilter from "@/components/shared/SearchFilter";
+import { EventDetailsModal } from "../modals/EventDetailsModal";
 
 const JoinedEventsTable = ({
   joinedEvents,
@@ -16,6 +18,13 @@ const JoinedEventsTable = ({
   joinedEvents: IJoinedEventResponse;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleView = (event: any) => {
+    setSelectedEvent(event);
+    setOpenModal(true);
+  };
 
   return (
     <div>
@@ -34,6 +43,7 @@ const JoinedEventsTable = ({
             { label: "Hiking", value: "Hiking" },
             { label: "Dinner", value: "dinner" },
             { label: "Sports", value: "sports" },
+            { label: "Tech", value: "tech" },
           ]}
         />
         <SelectFilter
@@ -51,23 +61,26 @@ const JoinedEventsTable = ({
           placeholder="Max Fee"
           options={[
             { label: "Free", value: "0" },
-            { label: "Under 500", value: "500" },
-            { label: "Under 1000", value: "1000" },
-            { label: "Under 2000", value: "2000" },
+            { label: "Under 500", value: "0,500" },
+            { label: "Under 1000", value: "500,1000" },
+            { label: "Under 2000", value: "1000,2000" },
           ]}
         />
       </div>
-      
+
       <ManagementTable<IJoinedEvent>
         data={joinedEvents.data}
         columns={joinedEventsColumns}
         getRowKey={(row) => row.id}
         emptyMessage="You haven't joined any events yet."
         isRefreshing={isLoading}
-        onView={(row) => {
-          console.log("View Event:", row.event.id);
-          // router.push(`/events/${row.event.id}`)
-        }}
+        onView={(row) => handleView(row.event)}
+      />
+
+      <EventDetailsModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        event={selectedEvent}
       />
     </div>
   );

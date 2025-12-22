@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -5,123 +6,180 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Eye, Trash2 } from "lucide-react";
+import { IJoinedEventResponse } from "@/types/passed-event.interface";
+import { dateFormatter } from "@/components/shared/DateFormatter";
+import { EventDetailsModal } from "../modals/EventDetailsModal";
+import { toast } from "sonner";
+// import { unsaveEventAction } from "@/services/savedEvents/savedEventActions";
 
-// 🔹 Dummy Data
-const savedEvents = [
-  {
-    id: 1,
-    title: "Tech Conference 2025",
-    date: "2025-02-12",
-    location: "Dhaka",
-    category: "Technology",
-    status: "Upcoming",
-  },
-  {
-    id: 2,
-    title: "Music Festival",
-    date: "2025-03-05",
-    location: "Chittagong",
-    category: "Music",
-    status: "Upcoming",
-  },
-  {
-    id: 3,
-    title: "Startup Meetup",
-    date: "2024-12-20",
-    location: "Sylhet",
-    category: "Business",
-    status: "Completed",
-  },
-];
+export default function SavedEventsTable({
+  saveEvents,
+}: {
+  saveEvents: IJoinedEventResponse;
+}) {
+  const [events, setEvents] = useState(saveEvents.data)
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [openModal, setOpenModal] = useState(false);
 
-export default function SavedEventsTable() {
-  const [events, setEvents] = useState(savedEvents);
+  const handleView = (event: any) => {
+    setSelectedEvent(event);
+    setOpenModal(true);
+  };
 
-  const handleRemove = (id: number) => {
-    setEvents((prev) => prev.filter((event) => event.id !== id));
+  const handleRemove = async(id: string) => {
+    setEvents((prev: any[]) => prev.filter((item) => item.id !== id));
+    // const eventDelete = await unsaveEventAction(id)
+    // if(!eventDelete.success){
+    //   toast.error(eventDelete.message || "Event unsave hase been failed")
+    // }
+    toast.success( "Event has been unsave successfully")
   };
 
   return (
-    <Card className="rounded-2xl shadow-md">
-      <CardContent className="p-4">
-
-        {/* Desktop Table */}
-        <div className="hidden md:block overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="border-b text-left text-sm text-muted-foreground">
-                <th className="py-3">Event</th>
-                <th>Date</th>
-                <th>Location</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th className="text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {events.map((event) => (
-                <tr key={event.id} className="border-b last:border-none">
-                  <td className="py-3 font-medium">{event.title}</td>
-                  <td>{event.date}</td>
-                  <td>{event.location}</td>
-                  <td>{event.category}</td>
-                  <td>
-                    <Badge variant={event.status === "Upcoming" ? "default" : "secondary"}>
-                      {event.status}
-                    </Badge>
-                  </td>
-                  <td className="text-right space-x-2">
-                    <Button size="icon" variant="outline">
-                      <Eye className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="destructive"
-                      onClick={() => handleRemove(event.id)}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </td>
+    <div>
+      <Card className="rounded-2xl shadow-md">
+        <CardContent className="p-4">
+          {/* Desktop Table */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="border-b text-left text-sm text-muted-foreground">
+                  <th className="py-3">Event</th>
+                  <th>Date</th>
+                  <th>Location</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th className="text-right">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
 
-        {/* Mobile Card View */}
-        <div className="md:hidden space-y-4">
-          {events.map((event) => (
-            <div
-              key={event.id}
-              className="border rounded-2xl p-4 space-y-2"
-            >
-              <div className="flex justify-between items-start">
-                <h3 className="font-semibold">{event.title}</h3>
-                <Badge variant={event.status === "Upcoming" ? "default" : "secondary"}>
-                  {event.status}
-                </Badge>
-              </div>
-              <p className="text-sm text-muted-foreground">📅 {event.date}</p>
-              <p className="text-sm">📍 {event.location}</p>
-              <p className="text-sm">🏷️ {event.category}</p>
+              <tbody>
+                {events.map((item: any) => {
+                  const { formattedDate, formattedTime } =
+                    dateFormatter(item.event.date);
 
-              <div className="flex gap-2 pt-2">
-                <Button size="sm" variant="outline" className="flex-1">
-                  <Eye className="w-4 h-4 mr-1" /> View
-                </Button>
-                <Button
-                  size="sm"
-                  variant="destructive"
-                  className="flex-1"
-                  onClick={() => handleRemove(event.id)}
+                  return (
+                    <tr
+                      key={item.id}
+                      className="border-b last:border-none"
+                    >
+                      <td className="py-3 font-medium">
+                        {item.event.name}
+                      </td>
+
+                      <td className="text-sm">
+                        <p>{formattedDate}</p>
+                        <p className="text-muted-foreground">
+                          {formattedTime}
+                        </p>
+                      </td>
+
+                      <td>{item.event.location}</td>
+                      <td>{item.event.type}</td>
+
+                      <td>
+                        <Badge
+                          variant={
+                            item.event.status === "OPEN"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
+                          {item.event.status}
+                        </Badge>
+                      </td>
+
+                      <td className="text-right space-x-2">
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          onClick={() => handleView(item.event)}
+                        >
+                          <Eye className="w-4 h-4" />
+                        </Button>
+
+                        <Button
+                          size="icon"
+                          variant="destructive"
+                          onClick={() => handleRemove(item.id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-4">
+            {saveEvents.data.map((item: any) => {
+              const { formattedDate, formattedTime } = dateFormatter(
+                item.event.date
+              );
+
+              return (
+                <div
+                  key={item.id}
+                  className="border rounded-2xl p-4 space-y-2"
                 >
-                  <Trash2 className="w-4 h-4 mr-1" /> Remove
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+                  <div className="flex justify-between items-start">
+                    <h3 className="font-semibold">
+                      {item.event.name}
+                    </h3>
+
+                    <Badge
+                      variant={
+                        item.event.status === "OPEN"
+                          ? "default"
+                          : "secondary"
+                      }
+                    >
+                      {item.event.status}
+                    </Badge>
+                  </div>
+
+                  <p className="text-sm text-muted-foreground">
+                    📅 {formattedDate}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    ⏰ {formattedTime}
+                  </p>
+                  <p className="text-sm">📍 {item.event.location}</p>
+                  <p className="text-sm">🏷️ {item.event.type}</p>
+
+                  <div className="flex gap-2 pt-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      <Eye className="w-4 h-4 mr-1" /> View
+                    </Button>
+
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      className="flex-1"
+                      onClick={() => handleRemove(item.id)}
+                    >
+                      <Trash2 className="w-4 h-4 mr-1" /> Remove
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      <EventDetailsModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        event={selectedEvent}
+      />
+    </div>
   );
 }
