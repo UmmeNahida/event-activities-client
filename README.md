@@ -1,4 +1,4 @@
-# 🎉 Event Management Platform
+# Event Management Platform
 
 🔗 **Live URL:** https://event-activity-client.vercel.app 
 📦 **Backend API:** https://server-event-activity-management.onrender.com  
