@@ -3,11 +3,10 @@
 
 import SearchFilter from "@/components/shared/SearchFilter";
 import SelectFilter from "@/components/shared/selectFilter";
-import EventsGrid from "./EventsGrid";
 import Pagination from "./pagination";
+import AdminEventsPage from "../Admin/AdminEventsPage";
 
 export default function EventsPage({ getAllEventsData }: any) {
-  console.log("getAllEvent:", getAllEventsData.data)
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -55,7 +54,8 @@ export default function EventsPage({ getAllEventsData }: any) {
       </div>
 
       {/* Events List */}
-      <EventsGrid events={getAllEventsData.data} />
+      {/* <EventsGrid events={getAllEventsData.data} /> */}
+      <AdminEventsPage events={getAllEventsData.data} />
 
       {/* Pagination */}
       <Pagination meta={getAllEventsData.meta} />

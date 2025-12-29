@@ -44,7 +44,7 @@ export default function AdminAnalytics({analyticsData}:{analyticsData:AnalyticsR
 
       const res = analyticsData.data;
       if (!analyticsData.success) throw new Error("Failed to fetch analytics");
-      setData(analyticsData.data);
+      setData(res);
       
     } catch (err: any) {
       setError(err.message || "Unknown error");
@@ -152,7 +152,7 @@ export default function AdminAnalytics({analyticsData}:{analyticsData:AnalyticsR
             <CardTitle>Events Status Breakdown</CardTitle>
             <CardDescription>Active vs Completed</CardDescription>
           </CardHeader>
-          <CardContent className=" h-[200px] flex items-center justify-center">
+          <CardContent className=" h-50 flex items-center justify-center">
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
