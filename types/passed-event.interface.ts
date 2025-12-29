@@ -5,6 +5,8 @@ export interface IHost {
   image: string;
 }
 
+export type EventStatus = "OPEN" | "COMPLETED" | "CANCELLED" | "PENDING" | "CLOSED";
+
 // Event info
 export interface IEventType {
   id: string;
@@ -19,7 +21,7 @@ export interface IEventType {
   maxParticipants: number;
   participantCount: number;
   fee: number;
-  status: "OPEN" | "COMPLETED" | "CANCELLED" | "PENDING" | "CLOSED";
+  status: EventStatus;
   createdAt: string;
   hostId: string;
   host: IHost;
