@@ -5,6 +5,7 @@ import SearchFilter from "@/components/shared/SearchFilter";
 import SelectFilter from "@/components/shared/selectFilter";
 import Pagination from "./pagination";
 import AdminEventsPage from "../Admin/AdminEventsPage";
+import ClearFiltersButton from "@/components/shared/ClearFiltersButton";
 
 export default function EventsPage({ getAllEventsData }: any) {
 
@@ -21,6 +22,11 @@ export default function EventsPage({ getAllEventsData }: any) {
           paramName="type"
           placeholder="Event Type"
           options={[
+            { label: "Music", value: "music" },
+            { label: "Tech", value: "Tech" },
+            { label: "Travel", value: "Travel" },
+            { label: "Art", value: "art" },
+            { label: "Gaming", value: "Gaming" },
             { label: "Conference", value: "Conference" },
             { label: "Concert", value: "concert" },
             { label: "Hiking", value: "Hiking" },
@@ -50,11 +56,10 @@ export default function EventsPage({ getAllEventsData }: any) {
             { label: "Under 2000", value: "2000" },
           ]}
         />
-        <div>Deep Focus</div>
+        <ClearFiltersButton/>
       </div>
 
       {/* Events List */}
-      {/* <EventsGrid events={getAllEventsData.data} /> */}
       <AdminEventsPage events={getAllEventsData.data} />
 
       {/* Pagination */}

@@ -1,12 +1,12 @@
 import ManagementTable, { Column } from "@/components/shared/ManagementTable";
 import StatusSelect from "@/components/shared/StatusSelected";
+import { Badge } from "@/components/ui/badge";
 import {
   EventStatus,
   IEventType,
 } from "@/types/passed-event.interface";
 
 const AdminEventsPage = ({ events }: { events: IEventType[] }) => {
-  console.log("getAllEvent:", events)
 
   const columns: Column<IEventType>[] = [
     {
@@ -29,9 +29,13 @@ const AdminEventsPage = ({ events }: { events: IEventType[] }) => {
       sortKey: "date",
     },
     {
-      header: "Participants",
-      accessor: "participantCount",
-      sortKey: "participantCount",
+      header: "Event Price",
+      accessor:  (row) => (
+                <Badge variant={row.fee === 0 ? "secondary" : "outline"}>
+                    {row.fee === 0 ? "Free" : `৳${row.fee}`}
+                </Badge>
+            ),
+      sortKey: "fee",
     },
     {
       header: "Status",

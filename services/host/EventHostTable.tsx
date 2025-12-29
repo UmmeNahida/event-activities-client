@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -17,9 +18,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { MoreHorizontal, Eye, Trash2, RefreshCcw, Edit } from "lucide-react";
+import { MoreHorizontal, Eye, Trash2, Edit } from "lucide-react";
 import UpdateEventModal from "./UpdateEventModal";
-// import { UpdateEventForm } from "./updateEvents";
 
 // ================= types =================
 export type HostEvent = {
