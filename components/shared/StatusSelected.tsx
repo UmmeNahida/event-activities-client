@@ -5,6 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { EventStatus } from "@/types/passed-event.interface";
 
 interface StatusSelectProps {
   value: EventStatus;
@@ -14,7 +15,7 @@ interface StatusSelectProps {
 const StatusSelect = ({ value, onChange }: StatusSelectProps) => {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-[140px]">
+      <SelectTrigger className="w-35">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
