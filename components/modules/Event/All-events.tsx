@@ -7,6 +7,7 @@ import EventsGrid from "./EventsGrid";
 import Pagination from "./pagination";
 
 export default function EventsPage({ getAllEventsData }: any) {
+  console.log("getAllEvent:", getAllEventsData.data)
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -50,6 +51,7 @@ export default function EventsPage({ getAllEventsData }: any) {
             { label: "Under 2000", value: "2000" },
           ]}
         />
+        <div>Deep Focus</div>
       </div>
 
       {/* Events List */}
