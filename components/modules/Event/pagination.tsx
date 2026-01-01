@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 export default function Pagination({ meta }: any) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const page = Number(meta?.page);
+  const page = meta?.page;
   const totalPages = Math.ceil(meta?.total / meta?.limit);
 
   const goToPage = (newPage: number) => {
@@ -17,7 +17,7 @@ export default function Pagination({ meta }: any) {
     router.push(`?${params.toString()}`);
   };
 
-  if (totalPages <= 1) return null;
+  if (totalPages < 1) return null;
 
   return (
     <div className="flex justify-center items-center gap-3 mt-10">

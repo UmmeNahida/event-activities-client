@@ -11,50 +11,63 @@ interface SearchFilterProps {
   paramName?: string;
 }
 
-const SearchFilter = ({
+export default function SearchFilter({
   placeholder = "Search...",
   paramName = "searchTerm",
-}: SearchFilterProps) => {
+}: SearchFilterProps) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
-  const [value, setValue] = useState(searchParams.get(paramName) || "");
-  const debouncedValue = useDebounce(value, 500);
+  const [isPending, startTransition] = useTransition();
 
+  // 🔑 URL is source of truth
+  const urlValue = searchParams.get(paramName) ?? "";
+
+  // 🧠 Local typing state (NOT synced via effect)
+  const [draft, setDraft] = useState(urlValue);
+
+  const debouncedDraft = useDebounce(draft, 500);
+
+  /**
+   * Push URL updates only
+   * (No setState here)
+   */
   useEffect(() => {
+    if (debouncedDraft === urlValue) return;
+
     const params = new URLSearchParams(searchParams.toString());
 
-    const initialValue = searchParams.get(paramName) || "";
-
-    if (debouncedValue === initialValue) {
-      return;
-    }
-
-    if (debouncedValue) {
-      params.set(paramName, debouncedValue); // ?searchTerm=debouncedValue
-      params.set("page", "1"); // reset to first page on search
+    if (debouncedDraft) {
+      params.set(paramName, debouncedDraft);
+      params.set("page", "1");
     } else {
-      params.delete(paramName); // remove searchTerm param
-      params.delete("page"); // reset to first page on search clear
+      params.delete(paramName);
+      params.delete("page");
     }
 
     startTransition(() => {
       router.push(`?${params.toString()}`);
     });
-  }, [debouncedValue, paramName, router, searchParams]);
+  }, [debouncedDraft, urlValue, paramName, router, searchParams]);
+
+  /**
+   * Controlled input rule:
+   * - While typing → show draft
+   * - Otherwise → show URL value
+   */
+  const inputValue =
+    draft === urlValue ? urlValue : draft;
 
   return (
-    <div className="relative">
+    <div className="relative w-full max-w-sm">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+
       <Input
         placeholder={placeholder}
+        value={inputValue}
+        onChange={(e) => setDraft(e.target.value)}
         className="pl-10"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
         disabled={isPending}
       />
     </div>
   );
-};
-
-export default SearchFilter;
+}
