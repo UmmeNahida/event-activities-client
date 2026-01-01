@@ -20,6 +20,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { MoreHorizontal, Eye, Trash2, Edit } from "lucide-react";
 import UpdateEventModal from "./UpdateEventModal";
+import ManagementTable, { Column } from "@/components/shared/ManagementTable";
+import { toast } from "sonner";
+import Image from "next/image";
 
 // ================= types =================
 export type HostEvent = {
@@ -33,9 +36,9 @@ export type HostEvent = {
     fee: number;
     description: string;
     status: string;
+    type:string;
     minParticipants: number;
     maxParticipants: number;
-    category: string;
     participants: any[];
 };
 
@@ -46,12 +49,11 @@ export type HostEvent = {
         date: "August 5, 2024 • 3:00 PM",
         location: "Sports Arena, Los Angeles",
         type: "Sports",
-        price: "Starts from $30",
-        isPaid: true,
-        host: {
-            name: "Mike Johnson",
-            avatar: "https://i.pravatar.cc/150?img=33",
-        }
+        fee: 30,
+        // host: {
+        //     name: "Mike Johnson",
+        //     avatar: "https://i.pravatar.cc/150?img=33",
+        // }
     }
 
 // ================= props =================
@@ -60,166 +62,108 @@ type HostEventsTableProps = {
 };
 
 export default function HostEventsTable({ events }: HostEventsTableProps) {
-    const [data, setData] = useState<HostEvent[]>(events);
-    const [open, setOpen] = useState(false);
-    const [editingEvent, setEditingEvent] = useState(eventDetails)
-    const [selectedEvent, setSelectedEvent] = useState<HostEvent | null>(null);
+  const [open, setOpen] = useState(false);
+  const [editingEvent, setEditingEvent] = useState(eventDetails);
+  const [selectedEvent, setSelectedEvent] = useState<HostEvent | null>(null);
 
-    const handleDelete = (id: string) => {
-        // 🔥 backend call here
-        setData((prev) => prev.filter((e) => e.id !== id));
-    };
+  /* ---------------- handlers ---------------- */
 
- 
+  const handleEdit = (event: HostEvent) => {
+    setEditingEvent(event);
+    setOpen(true);
+  };
 
-    const handleEdit = (id: any) => {
-        setOpen(true)
-        setEditingEvent(id)
-    }
+  const handleView = (event: HostEvent) => {
+    setSelectedEvent(event);
+  };
 
-    const columns: ColumnDef<HostEvent>[] = [
-        {
-            accessorKey: "name",
-            header: "Event Name",
-        },
-        {
-            header: "Date & Time",
-            cell: ({ row }) => (
-                <div className="text-sm">
-                    <p>{new Date(row.original.date).toLocaleDateString()}</p>
-                    <p className="text-muted-foreground">{row.original.time}</p>
-                </div>
-            ),
-        },
-        {
-            accessorKey: "location",
-            header: "Location",
-        },
-        {
-            header: "Participants",
-            cell: ({ row }) => row.original.participantCount,
-        },
-        {
-            header: "Fee",
-            cell: ({ row }) => (
-                <Badge variant={row.original.fee === 0 ? "secondary" : "outline"}>
-                    {row.original.fee === 0 ? "Free" : `৳${row.original.fee}`}
-                </Badge>
-            ),
-        },
-        {
-            id: "actions",
-            header: "Actions",
-            cell: ({ row }) => (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button size="icon" variant="ghost">
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleEdit(row.original)}>
-                            <Edit className="mr-2 h-4 w-4" /> Edit Event
-                        </DropdownMenuItem>
+  /* ---------------- columns ---------------- */
 
-                        <DropdownMenuItem onClick={() => setSelectedEvent(row.original)}>
-                            <Eye className="mr-2 h-4 w-4" /> View
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem
-                            className="text-red-600"
-                            onClick={() => handleDelete(row.original.id)}
-                        >
-                            <Trash2 className="mr-2 h-4 w-4" /> Delete
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            ),
-        },
-    ];
-
-    const table = useReactTable({
-        data,
-        columns,
-        getCoreRowModel: getCoreRowModel(),
-    });
-
-    return (
-        <div className="w-full space-y-4">
-            {/* search */}
-            <div className="flex flex-col sm:flex-row gap-3">
-                <Input placeholder="Search events..." className="sm:max-w-xs" />
-            </div>
-
-            {/* table */}
-            <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted">
-                        {table.getHeaderGroups().map((hg) => (
-                            <tr key={hg.id}>
-                                {hg.headers.map((header) => (
-                                    <th key={header.id} className="px-4 py-3 text-left font-medium">
-                                        {flexRender(header.column.columnDef.header, header.getContext())}
-                                    </th>
-                                ))}
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody>
-                        {table.getRowModel().rows.length === 0 && (
-                            <tr>
-                                <td colSpan={columns.length} className="text-center py-6 text-muted-foreground">
-                                    No events found
-                                </td>
-                            </tr>
-                        )}
-                        {table.getRowModel().rows.map((row) => (
-                            <tr key={row.id} className="border-t">
-                                {row.getVisibleCells().map((cell) => (
-                                    <td key={cell.id} className="px-4 py-3">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            {/* view modal */}
-            <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
-                <DialogContent className="sm:max-w-lg">
-                    <DialogHeader>
-                        <DialogTitle>Event Details</DialogTitle>
-                    </DialogHeader>
-                    {selectedEvent && (
-                        <div className="space-y-2 text-sm">
-                            <img
-                                src={selectedEvent.image}
-                                alt={selectedEvent.name}
-                                className="w-full h-40 object-cover rounded-lg"
-                            />
-                            <p>Description: {selectedEvent.description} </p>
-                            <p><b>Name:</b> {selectedEvent.name}</p>
-                            <p><b>Date:</b> {new Date(selectedEvent.date).toLocaleDateString()}</p>
-                            <p><b>Time:</b> {selectedEvent.time}</p>
-                            <p><b>Min Participants:</b> {selectedEvent.minParticipants}</p>
-                            <p><b>Max Participants:</b> {selectedEvent.maxParticipants}</p>
-                            <p><b>status Participants:</b> {selectedEvent.status}</p>
-                            <p><b>Location:</b> {selectedEvent.location}</p>
-                            <p><b>Participants:</b> {selectedEvent.participantCount}</p>
-                            <p><b>Fee:</b> {selectedEvent.fee === 0 ? "Free" : `৳${selectedEvent.fee}`}</p>
-                        </div>
-                    )}
-                </DialogContent>
-            </Dialog>
-
-            <UpdateEventModal
-                open={open}
-                onOpenChange={setOpen}
-                defaultValues={editingEvent}
-            />
-
+  const columns: Column<HostEvent>[] = [
+    {
+      header: "Event Name",
+      accessor: "name",
+      sortKey: "name",
+    },
+    {
+      header: "Date & Time",
+      accessor: (row) => (
+        <div className="text-sm">
+          <p>{new Date(row.date).toLocaleDateString()}</p>
+          <p className="text-muted-foreground">{row.time}</p>
         </div>
-    );
+      ),
+      sortKey: "date",
+    },
+    {
+      header: "Location",
+      accessor: "location",
+    },
+    {
+      header: "Participants",
+      accessor: (row) => row.participantCount,
+    },
+    {
+      header: "Fee",
+      accessor: (row) => (
+        <Badge variant={row.fee === 0 ? "secondary" : "outline"}>
+          {row.fee === 0 ? "Free" : `৳${row.fee}`}
+        </Badge>
+      ),
+      sortKey: "fee",
+    },
+  ];
+
+  /* ---------------- UI ---------------- */
+
+  return (
+    <div className="w-full space-y-4">
+   
+      {/* table */}
+      <ManagementTable
+        data={events}
+        columns={columns}
+        getRowKey={(row) => row.id}
+        onView={handleView}
+        onEdit={handleEdit}
+        emptyMessage="No events found"
+      />
+
+      {/* view modal */}
+      <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Event Details</DialogTitle>
+          </DialogHeader>
+
+          {selectedEvent && (
+            <div className="space-y-2 text-sm">
+              <Image
+                src={selectedEvent.image}
+                alt={selectedEvent.name}
+                width='500'
+                height='500'
+                className="w-full h-40 object-cover rounded-lg"
+              />
+              <p><b>Name:</b> {selectedEvent.name}</p>
+              <p><b>Description:</b> {selectedEvent.description}</p>
+              <p><b>Date:</b> {new Date(selectedEvent.date).toLocaleDateString()}</p>
+              <p><b>Time:</b> {selectedEvent.time}</p>
+              <p><b>Status:</b> {selectedEvent.status}</p>
+              <p><b>Location:</b> {selectedEvent.location}</p>
+              <p><b>Participants:</b> {selectedEvent.participantCount}</p>
+              <p><b>Fee:</b> {selectedEvent.fee === 0 ? "Free" : `৳${selectedEvent.fee}`}</p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* edit modal */}
+      <UpdateEventModal
+        open={open}
+        onOpenChange={setOpen}
+        defaultValues={editingEvent}
+      />
+    </div>
+  );
 }

@@ -1,113 +1,147 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import ManagementTable, { Column } from "@/components/shared/ManagementTable";
-import SelectFilter from "@/components/shared/selectFilter";
+import { useState } from "react";
+import ManagementTable, {
+  Column,
+} from "@/components/shared/ManagementTable";
 import SearchFilter from "@/components/shared/SearchFilter";
+import SelectFilter from "@/components/shared/selectFilter";
 import HostApprovalModal from "../Admin/HostApprovalModal";
-import { approveHostRequest, deleteUser, rejectHostRequest } from "@/services/event/allEvents";
+import {
+  approveHostRequest,
+  deleteUser,
+  rejectHostRequest,
+} from "@/services/event/allEvents";
 import { toast } from "sonner";
 import { IUserInfo } from "@/types/user.interface";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Trash } from "lucide-react";
+import Pagination from "./pagination";
+import ClearFiltersButton from "@/components/shared/ClearFiltersButton";
 
 export default function UserManagementTable({ userData }: any) {
-  const searchParams = useSearchParams();
+  const [openHostModal, setOpenHostModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState("");
 
-  const [users, setUsers] = useState<IUserInfo[]>([]);
-  const [meta, setMeta] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [userId, setUserId] = useState("")
 
-  const fetchUsers = async () => {
-    setLoading(true);
+  /* =========================
+        Handlers
+  ========================== */
 
-    setUsers(userData.data.users || []);
-    setMeta(userData.meta || {});
-    setLoading(false);
+  const openHostRequestModal = (id: string) => {
+    setSelectedUserId(id);
+    setOpenHostModal(true);
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, [searchParams]);
+  const openDeleteConfirmModal = (id: string) => {
+    setSelectedUserId(id);
+    setOpenDeleteModal(true);
+  };
 
-  // const columns = [
-  //   { header: "Name", accessor: "name", sortKey: "name" },
-  //   { header: "Email", accessor: "email", sortKey: "email" },
-  //   { header: "Location", accessor: "location", sortKey: "location" },
-  //   { header: "Status", accessor: "userStatus", sortKey: "userStatus" },
-  //   { header: "Role", accessor: "role" },
-  // ];
+  const handleApprove = async () => {
+    const res = await approveHostRequest(selectedUserId);
+    if (!res.success) {
+      toast.error(res.message || "Approve failed");
+      return;
+    }
+    toast.success("User approved as host");
+    setOpenHostModal(false);
+  };
 
+  const handleReject = async () => {
+    const res = await rejectHostRequest(selectedUserId);
+    if (!res.success) {
+      toast.error(res.message || "Reject failed");
+      return;
+    }
+    toast.success("Host request rejected");
+    setOpenHostModal(false);
+  };
+
+  const handleDelete = async () => {
+    const res = await deleteUser(selectedUserId);
+    if (!res.success) {
+      toast.error(res.message || "Delete failed");
+      return;
+    }
+    toast.success("User deleted successfully");
+    setOpenDeleteModal(false);
+  };
+
+  /* =========================
+        Table Columns
+  ========================== */
 
   const columns: Column<IUserInfo>[] = [
     {
       header: "Name",
       accessor: "name",
-      sortKey: "name",
     },
     {
       header: "Email",
       accessor: "email",
-      sortKey: "email",
     },
     {
       header: "Location",
       accessor: "location",
-      sortKey: "location",
     },
     {
       header: "Status",
       accessor: "userStatus",
-      sortKey: "userStatus",
     },
     {
       header: "Role",
       accessor: "role",
     },
+    {
+      header: "Host Request",
+      accessor: (row) =>
+        row.userStatus === "REQUESTED" ? (
+          <button
+            onClick={() => openHostRequestModal(row.id)}
+            className="text-blue-600 text-sm underline cursor-pointer"
+          >
+            Pending Host Request
+          </button>
+        ) : (
+          <span className="text-gray-400 text-sm">
+            No host request
+          </span>
+        ),
+    },
+    {
+      header: "Action",
+      accessor: (row) => (
+        <button
+          onClick={() => openDeleteConfirmModal(row.id)}
+          className="text-red-600 text-sm underline flex items-center cursor-pointer"
+        >
+          <Trash className="h-4 w-4" />
+          Delete
+        </button>
+      ),
+    },
   ];
-
-
-
-  const handleEdit = (row: IUserInfo) => {
-    setOpen(true)
-    setUserId(row.id)
-  }
-
-
-  const handleDelete = async(row: IUserInfo) => {
-    const res = await deleteUser(row.id)
-    if (!res.success) {
-      toast.error(res.message || "Delete Request is failed")
-    }
-    toast.success(res.message || "User has been deleted successfully")
-  }
-
-
-  const handleOnApprove = async () => {
-    const res = await approveHostRequest(userId)
-    if (!res.success) {
-      toast.error(res.message || "Request is failed")
-    }
-    toast.success(res.message || "User has been be a host successfully")
-    setOpen(false)
-  }
-
-  const handleOnReject = async () => {
-    const res = await rejectHostRequest(userId)
-    if (!res.success) {
-      toast.error(res.message || "Reject Request is failed")
-    }
-    toast.success(res.message || "User Request has been Rejected successfully")
-    setOpen(false)
-  }
 
   return (
     <div className="p-5">
-
       {/* Filters */}
-      <div className="flex items-center justify-start gap-5 mb-8">
-        <SearchFilter placeholder="Search events..." paramName="searchTerm" />
+      <div className="flex gap-5 mb-8">
+        <SearchFilter
+          placeholder="Search users..."
+          paramName="searchTerm"
+        />
 
         <SelectFilter
           paramName="userStatus"
@@ -116,7 +150,8 @@ export default function UserManagementTable({ userData }: any) {
             { label: "Active", value: "ACTIVE" },
             { label: "Inactive", value: "INACTIVE" },
             { label: "Blocked", value: "BLOCKED" },
-            { label: "Suspended", value: "SUSPENDED" }
+            { label: "Suspended", value: "SUSPENDED" },
+            { label: "Requested", value: "REQUESTED" },
           ]}
         />
 
@@ -127,27 +162,53 @@ export default function UserManagementTable({ userData }: any) {
             { label: "Dhaka", value: "dhaka" },
             { label: "Chittagong", value: "chittagong" },
             { label: "Sylhet", value: "sylhet" },
-            { label: "Bandarban", value: "Bandarban" },
           ]}
         />
+
+        <ClearFiltersButton/>
       </div>
 
-
+      {/* Table */}
       <ManagementTable<IUserInfo>
-        data={users}
+        data={userData.data.users}
         columns={columns}
-        getRowKey={(row: IUserInfo) => row.id}
-        isRefreshing={loading}
-        onEdit={(row) => handleEdit(row)}
-        onDelete={(row) => handleDelete(row)}
+        getRowKey={(row) => row.id}
       />
 
+      {/* Host Approval Modal */}
       <HostApprovalModal
-        open={open}
-        onOpenChange={setOpen}
-        onApprove={handleOnApprove}
-        onReject={handleOnReject}
+        open={openHostModal}
+        onOpenChange={setOpenHostModal}
+        onApprove={handleApprove}
+        onReject={handleReject}
       />
+
+      <Pagination meta={userData.data.meta} />
+
+      {/* Delete Confirmation Modal */}
+      <AlertDialog
+        open={openDeleteModal}
+        onOpenChange={setOpenDeleteModal}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This user will be
+              permanently deleted.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-red-600"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

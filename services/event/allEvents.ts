@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { ENV } from "@/config";
 import { serverFetch } from "@/lib/server-fetch";
 import { revalidateTag } from "next/cache";
 
 export async function getAllEvents(queryString?: string) {
-
-  const res = await serverFetch.get(`/common/all-events${queryString ? `?${queryString}` : ""}`, {
-    next: { revalidate: 0 },
-  });
+  const res = await serverFetch.get(
+    `/admin/all-events${queryString ? `?${queryString}` : ""}`,
+    {
+      next: {tags: ["admin-events"]},
+    }
+  );
 
   if (!res.ok) return [];
 
@@ -17,15 +20,22 @@ export async function getAllEvents(queryString?: string) {
 }
 
 export async function getMyEvents(queryString?: string) {
+  const res = await serverFetch.get(
+    `/events/my-events${queryString ? `?${queryString}` : ""}`,
+     {
+      cache: "no-store",
+    }
+  );
 
-  const res = await serverFetch.get(`/events/my-events${queryString ? `?${queryString}` : ""}`, {
-    next: { tags: ['host-events'] },
-  });
+  if (!res.ok) {
+    return {
+      events: [],
+      meta: { page: 1, limit: 5, total: 0 },
+    };
+  }
 
-  if (!res.ok) return [];
-
-  const data = await res.json();
-  return data.data || [];
+  const json = await res.json();
+  return json.data;
 }
 
 
@@ -33,7 +43,7 @@ export async function adminGetUsers(query: any) {
   const qs = new URLSearchParams(query).toString();
 
   const res = await serverFetch.get(`/admin/users?${qs}`, {
-    next: { tags: ["all-users"] }
+    next: { tags: ["all-users"] },
   });
 
   if (!res.ok) return { data: [], meta: {} };
@@ -43,80 +53,93 @@ export async function adminGetUsers(query: any) {
 export async function adminGetHosts(query: any) {
   const qs = new URLSearchParams(query).toString();
   const res = await serverFetch.get(`/admin/hosts?${qs}`, {
-    next: { tags: ["all-hosts"] }
+    next: { tags: ["all-hosts"] },
   });
 
   if (!res.ok) return { data: [], meta: {} };
   return await res.json();
 }
 
+export const updateHostStatus = async (
+  id: string,
+  status: string
+) => {
+  try {
+    const res = await serverFetch.patch(`/admin/hosts/status/${id}`,{
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: status, 
+        }),
+      });
 
-export const updateHostStatus = async (id: string, status: string) => {
+    const result = await res.json();
 
-  const res = await serverFetch.patch(`/admin/hosts/status/${id}`, {
-    headers: {
-      "content-type": "application-json"
-    },
-    body: status
-  })
-
-  const result = await res.json()
-
-  if (result.success) {
-    revalidateTag("user-info", { expire: 0 });
+    if (result.success) {
+      revalidateTag("user-info", { expire: 0 });
+    }
+  } catch (err: any) {
+    return {
+      success: false,
+      message: `${ENV.NODE_ENV === "development" ? err.message : "something went wrong"}`
+    }
   }
-
-}
+};
 
 export const approveHostRequest = async (id: string) => {
-
   try {
     const res = await serverFetch.patch(`/admin/approve-host/${id}`, {
       headers: {
-        "content-type": "application-json"
-      }
-    })
+        "content-type": "application-json",
+      },
+    });
 
-    const result = await res.json()
+    const result = await res.json();
 
     if (result.success) {
       revalidateTag("all-users", { expire: 0 });
     }
 
-    return result
-  } catch (error:any) {
+    return result;
+  } catch (error: any) {
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+      message: `${
+        process.env.NODE_ENV === "development"
+          ? error.message
+          : "Something went wrong"
+      }`,
     };
   }
-
-}
+};
 
 export const rejectHostRequest = async (id: string) => {
-
   try {
     const res = await serverFetch.patch(`/admin/reject-host/${id}`, {
       headers: {
-        "content-type": "application-json"
-      }
-    })
+        "content-type": "application-json",
+      },
+    });
 
-    const result = await res.json()
+    const result = await res.json();
 
     if (result.success) {
       revalidateTag("all-users", { expire: 0 });
     }
 
-    return result
-  } catch (error:any) {
+    return result;
+  } catch (error: any) {
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+      message: `${
+        process.env.NODE_ENV === "development"
+          ? error.message
+          : "Something went wrong"
+      }`,
     };
   }
-
-}
+};
 
 export async function updateMyProfile(formData: FormData) {
   try {
@@ -125,23 +148,26 @@ export async function updateMyProfile(formData: FormData) {
     // Get all form fields except the file
     const data: any = {};
     formData.forEach((value, key) => {
-      if (key !== 'file' && value) {
+      if (key !== "file" && value) {
         data[key] = value;
       }
     });
 
     // Add the data as JSON string
-    uploadFormData.append('data', JSON.stringify(data));
+    uploadFormData.append("data", JSON.stringify(data));
 
     // Add the file if it exists
-    const file = formData.get('file');
+    const file = formData.get("file");
     if (file && file instanceof File && file.size > 0) {
-      uploadFormData.append('file', file);
+      uploadFormData.append("file", file);
     }
 
-    const response = await serverFetch.patch(`/users/update-my-profile`, {
-      body: uploadFormData,
-    });
+    const response = await serverFetch.patch(
+      `/users/update-my-profile`,
+      {
+        body: uploadFormData,
+      }
+    );
 
     const result = await response.json();
 
@@ -152,33 +178,70 @@ export async function updateMyProfile(formData: FormData) {
   } catch (error: any) {
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+      message: `${
+        process.env.NODE_ENV === "development"
+          ? error.message
+          : "Something went wrong"
+      }`,
     };
   }
 }
 
-
-export async function deleteUser(id:string) {
+export async function deleteUser(id: string) {
   try {
+    const res = await serverFetch.delete(`/admin/users/delete/${id}`);
 
-    const res = await serverFetch.delete(`/admin/users/delete/${id}`)
-
-    const result = await res.json()
+    const result = await res.json();
 
     if (result.success) {
       revalidateTag("all-users", { expire: 0 });
     }
 
-    return result
+    return result;
   } catch (error: any) {
     return {
       success: false,
-      message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+      message: `${
+        process.env.NODE_ENV === "development"
+          ? error.message
+          : "Something went wrong"
+      }`,
     };
   }
 }
 
+// update event status
+export const updateEventStatus = async (
+  id: string,
+  status: string
+) => {
+  try {
+    const res = await serverFetch.patch(
+      `/events/status/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: status, 
+        }),
+      }
+    );
 
+    const result = await res.json();
 
+    if (result.success) {
+      revalidateTag("admin-events", { expire: 0 });
+    }
 
-
+    return result;
+  } catch (err: any) {
+    return {
+      success: false,
+      message:
+        ENV.NODE_ENV === "development"
+          ? err.message
+          : "something went wrong",
+    };
+  }
+};
