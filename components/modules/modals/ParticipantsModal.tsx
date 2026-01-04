@@ -40,11 +40,7 @@ export default function ParticipantsModal({
 
     const fetchParticipants = async () => {
       const result = await myParticipantUsers(eventId, page, limit);
-    console.log("myUsers", result)
-    if(!result.success){
-       toast.error(result.message || "something is wrong")
-    }
-
+  
       setParticipants(result?.data);
       setTotal(result?.meta?.total);
     };
