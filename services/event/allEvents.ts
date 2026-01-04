@@ -4,12 +4,36 @@
 import { ENV } from "@/config";
 import { serverFetch } from "@/lib/server-fetch";
 import { revalidateTag } from "next/cache";
+import { toast } from "sonner";
+
+export const myParticipantUsers = async (
+  eventId: string,
+  page:number,
+  limit:number
+) => {
+  try {
+    const res = await serverFetch.get(`/events/${eventId}/even-participants?page=${page}&limit=${limit}`);
+
+    const result = await res.json();
+    return result.data
+  } catch (err: any) {
+    console.log()
+    return {
+      success: false,
+      message: `${
+        ENV.NODE_ENV === "development"
+          ? err.message
+          : "something went wrong2"
+      }`,
+    };
+  }
+};
 
 export async function getAllEvents(queryString?: string) {
   const res = await serverFetch.get(
     `/admin/all-events${queryString ? `?${queryString}` : ""}`,
     {
-      next: {tags: ["admin-events"]},
+      next: { tags: ["admin-events"] },
     }
   );
 
@@ -22,7 +46,7 @@ export async function getAllEvents(queryString?: string) {
 export async function getMyEvents(queryString?: string) {
   const res = await serverFetch.get(
     `/events/my-events${queryString ? `?${queryString}` : ""}`,
-     {
+    {
       cache: "no-store",
     }
   );
@@ -37,7 +61,6 @@ export async function getMyEvents(queryString?: string) {
   const json = await res.json();
   return json.data;
 }
-
 
 export async function adminGetUsers(query: any) {
   const qs = new URLSearchParams(query).toString();
@@ -65,14 +88,14 @@ export const updateHostStatus = async (
   status: string
 ) => {
   try {
-    const res = await serverFetch.patch(`/admin/hosts/status/${id}`,{
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: status, 
-        }),
-      });
+    const res = await serverFetch.patch(`/admin/hosts/status/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status: status,
+      }),
+    });
 
     const result = await res.json();
 
@@ -82,8 +105,12 @@ export const updateHostStatus = async (
   } catch (err: any) {
     return {
       success: false,
-      message: `${ENV.NODE_ENV === "development" ? err.message : "something went wrong"}`
-    }
+      message: `${
+        ENV.NODE_ENV === "development"
+          ? err.message
+          : "something went wrong"
+      }`,
+    };
   }
 };
 
@@ -216,17 +243,14 @@ export const updateEventStatus = async (
   status: string
 ) => {
   try {
-    const res = await serverFetch.patch(
-      `/events/status/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: status, 
-        }),
-      }
-    );
+    const res = await serverFetch.patch(`/events/status/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status: status,
+      }),
+    });
 
     const result = await res.json();
 

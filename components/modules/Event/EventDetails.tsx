@@ -26,14 +26,14 @@ import {
   Facebook,
   Twitter,
   Instagram,
-  LinkIcon,
   Linkedin,
 } from "lucide-react";
 import { useState } from "react";
-import { IEvent } from "@/types/event-details.interface";
 import { addReview } from "@/services/participants/participants-service";
 import { toast } from "sonner";
 import { createReport } from "@/services/report/report";
+import { EventDetails as EventDetailsType } from "@/types/event-details.interface";
+import ParticipantsModal from "../modals/ParticipantsModal";
 
 const fakeEvent = {
   id: "93f6ceb3-0814-4bc1-8569-b793a59db4d6",
@@ -51,6 +51,122 @@ const fakeEvent = {
   participantCount: 50001,
   fee: 500,
   status: "OPEN",
+
+  participants: [
+    {
+      id: "d3266d81-2f9e-4a62-b8c8-1f3abfbbdf8d",
+      userId: "014bb2db-7de3-4247-8645-e65022a108ac",
+      eventId: "5b825f8d-830c-4572-82d0-6856d08cd179",
+      paid: false,
+      joinedAt: "2025-12-16T18:32:24.019Z",
+      user: {
+        id: "014bb2db-7de3-4247-8645-e65022a108ac",
+        name: "Ayesha Jahan",
+        image:
+          "https://res.cloudinary.com/dwzrn00z3/image/upload/v1765828939/file-1765828936641-147058489.jpg",
+        location: "Dhaka, Bangladesh",
+        hobbies: ["Reading", "Cooking", "Hiking"],
+        interests: ["Swimming", "Traveling", "Photography"],
+      },
+    },
+    {
+      id: "d3266d81-2f9e-4a62-b8c8-1f3abfbbdf",
+      userId: "014bb2db-7de3-4247-8645-e65022a108ac",
+      eventId: "5b825f8d-830c-4572-82d0-6856d08cd179",
+      paid: false,
+      joinedAt: "2025-12-16T18:32:24.019Z",
+      user: {
+        id: "014bb2db-7de3-4247-8645-e65022a108ac",
+        name: "Ayesha Jahan",
+        image:
+          "https://res.cloudinary.com/dwzrn00z3/image/upload/v1765828939/file-1765828936641-147058489.jpg",
+        location: "Dhaka, Bangladesh",
+        hobbies: ["Reading", "Cooking", "Hiking"],
+        interests: ["Swimming", "Traveling", "Photography"],
+      },
+    },
+    {
+      id: "d3266d81-2f9e-4a62-b8c8-1f3abfbbdf8",
+      userId: "014bb2db-7de3-4247-8645-e65022a108ac",
+      eventId: "5b825f8d-830c-4572-82d0-6856d08cd179",
+      paid: false,
+      joinedAt: "2025-12-16T18:32:24.019Z",
+      user: {
+        id: "014bb2db-7de3-4247-8645-e65022a108ac",
+        name: "Ayesha Jahan",
+        image:
+          "https://res.cloudinary.com/dwzrn00z3/image/upload/v1765828939/file-1765828936641-147058489.jpg",
+        location: "Dhaka, Bangladesh",
+        hobbies: ["Reading", "Cooking", "Hiking"],
+        interests: ["Swimming", "Traveling", "Photography"],
+      },
+    },
+    {
+      id: "d3266d81-2f9e-4a62",
+      userId: "014bb2db-7de3-4247-8645-e65022a108ac",
+      eventId: "5b825f8d-830c-4572-82d0-6856d08cd179",
+      paid: false,
+      joinedAt: "2025-12-16T18:32:24.019Z",
+      user: {
+        id: "014bb2db-7de3-4247-8645-e65022a108ac",
+        name: "Ayesha Jahan",
+        image:
+          "https://res.cloudinary.com/dwzrn00z3/image/upload/v1765828939/file-1765828936641-147058489.jpg",
+        location: "Dhaka, Bangladesh",
+        hobbies: ["Reading", "Cooking", "Hiking"],
+        interests: ["Swimming", "Traveling", "Photography"],
+      },
+    },
+    {
+      id: "d3266d81-2f9e-4a62-b8c8-1f3abfb",
+      userId: "014bb2db-7de3-4247-8645-e65022a108ac",
+      eventId: "5b825f8d-830c-4572-82d0-6856d08cd179",
+      paid: false,
+      joinedAt: "2025-12-16T18:32:24.019Z",
+      user: {
+        id: "014bb2db-7de3-4247-8645-e65022a108ac",
+        name: "Ayesha Jahan",
+        image:
+          "https://res.cloudinary.com/dwzrn00z3/image/upload/v1765828939/file-1765828936641-147058489.jpg",
+        location: "Dhaka, Bangladesh",
+        hobbies: ["Reading", "Cooking", "Hiking"],
+        interests: ["Swimming", "Traveling", "Photography"],
+      },
+    },
+    {
+      id: "d3266d81-2f9e-4a62-b8c8-1f3ab",
+      userId: "014bb2db-7de3-4247-8645-e65022a108ac",
+      eventId: "5b825f8d-830c-4572-82d0-6856d08cd179",
+      paid: false,
+      joinedAt: "2025-12-16T18:32:24.019Z",
+      user: {
+        id: "014bb2db-7de3-4247-8645-e65022a108ac",
+        name: "Ayesha Jahan",
+        image:
+          "https://res.cloudinary.com/dwzrn00z3/image/upload/v1765828939/file-1765828936641-147058489.jpg",
+        location: "Dhaka, Bangladesh",
+        hobbies: ["Reading", "Cooking", "Hiking"],
+        interests: ["Swimming", "Traveling", "Photography"],
+      },
+    },
+    {
+      id: "d3266d81-2f9e-4a62-b8c8-1f3",
+      userId: "014bb2db-7de3-4247-8645-e65022a108ac",
+      eventId: "5b825f8d-830c-4572-82d0-6856d08cd179",
+      paid: false,
+      joinedAt: "2025-12-16T18:32:24.019Z",
+      user: {
+        id: "014bb2db-7de3-4247-8645-e65022a108ac",
+        name: "Ayesha Jahan",
+        image:
+          "https://res.cloudinary.com/dwzrn00z3/image/upload/v1765828939/file-1765828936641-147058489.jpg",
+        location: "Dhaka, Bangladesh",
+        hobbies: ["Reading", "Cooking", "Hiking"],
+        interests: ["Swimming", "Traveling", "Photography"],
+      },
+    },
+  ],
+
   host: {
     id: "16e5f2b3-13ce-4f58-9ef4-b308eec4cf40",
     name: "Fatiha Jahan",
@@ -66,7 +182,12 @@ const fakeEvent = {
   },
 };
 
-export default function EventDetails({ events }: { events: IEvent }) {
+export default function EventDetails({
+  events,
+}: {
+  events: EventDetailsType;
+}) {
+  const [openParticipants, setOpenParticipants] = useState(false);
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState("");
   const [reason, setReason] = useState("");
@@ -117,7 +238,7 @@ export default function EventDetails({ events }: { events: IEvent }) {
         <div className="relative h-80 w-full">
           <Image
             src={events?.image || fakeEvent.image}
-            alt={events.name || fakeEvent.name}
+            alt={events?.name || fakeEvent.name}
             fill
             className="object-cover"
           />
@@ -126,45 +247,78 @@ export default function EventDetails({ events }: { events: IEvent }) {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <CardTitle className="text-2xl md:text-3xl">
-                {events.name || fakeEvent.name}
+                {events?.name || fakeEvent.name}
               </CardTitle>
               <CardDescription className="mt-2 flex flex-wrap gap-4">
                 <span className="flex items-center gap-1">
                   <CalendarDays size={16} />{" "}
                   {new Date(
-                    events.date || fakeEvent.date
+                    events?.date || fakeEvent.date
                   ).toDateString()}{" "}
-                  • {events.time || fakeEvent.time}
+                  • {events?.time || fakeEvent.time}
                 </span>
                 <span className="flex items-center gap-1">
                   <MapPin size={16} />{" "}
-                  {events.location || fakeEvent.location}
+                  {events?.location || fakeEvent.location}
                 </span>
               </CardDescription>
             </div>
             <Badge variant="secondary" className="text-sm px-3 py-1">
-              {events.status || fakeEvent.status}
+              {events?.status || fakeEvent.status}
             </Badge>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-muted-foreground">
-            {events.description || fakeEvent.description}
+            {events?.description || fakeEvent.description}
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="flex items-center gap-2 text-sm">
               <Users size={16} />{" "}
-              {events.participantCount || fakeEvent.participantCount}/
-              {events.maxParticipants || fakeEvent.maxParticipants}
+              {events?.participantCount || fakeEvent.participantCount}
+              /{events?.maxParticipants || fakeEvent.maxParticipants}
             </div>
             <div className="flex items-center gap-2 text-sm">
               <DollarSign size={16} /> Fee: ৳
-              {events.fee || fakeEvent.fee}
+              {events?.fee || fakeEvent.fee}
             </div>
             <div className="flex items-center gap-2 text-sm">
-              <Star size={16} /> Type: {events.type || fakeEvent.type}
+              <Star size={16} /> Type:{" "}
+              {events?.type || fakeEvent.type}
             </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Participants</CardTitle>
+          <Button
+            onClick={() => setOpenParticipants(true)}
+            variant="outline"
+            size="sm"
+          >
+            View all participants
+          </Button>
+        </CardHeader>
+
+        <CardContent>
+          <div className="flex items-center gap-3">
+            {events.participants.slice(0, 6).map((p) => (
+              <Avatar key={p.id}>
+                <AvatarImage src={p.user.image} />
+                <AvatarFallback>
+                  {p.user.name.slice(0, 2)}
+                </AvatarFallback>
+              </Avatar>
+            ))}
+
+            {events.participantCount > 6 && (
+              <span className="text-sm text-muted-foreground">
+                +{events.participantCount - 6} more
+              </span>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -270,6 +424,13 @@ export default function EventDetails({ events }: { events: IEvent }) {
           </Button>
         </CardContent>
       </Card>
+
+      {/* participants modal */}
+      <ParticipantsModal
+        open={openParticipants}
+        onClose={() => setOpenParticipants(false)}
+        eventId={events.id}
+      />
     </div>
   );
 }
