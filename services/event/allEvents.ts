@@ -4,7 +4,7 @@
 import { ENV } from "@/config";
 import { serverFetch } from "@/lib/server-fetch";
 import { revalidateTag } from "next/cache";
-import { toast } from "sonner";
+
 
 export const myParticipantUsers = async (
   eventId: string,
@@ -269,3 +269,20 @@ export const updateEventStatus = async (
     };
   }
 };
+
+
+
+// get common -events
+export async function getAllPublicEvents(queryString?: string) {
+  const res = await serverFetch.get(
+    `/common/all-events${queryString ? `?${queryString}` : ""}`,
+     {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) return [];
+
+  const data = await res.json();
+  return data.data || [];
+}
