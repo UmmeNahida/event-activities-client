@@ -90,8 +90,11 @@ export default function EventsFilters({
                         <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="upcoming">Upcoming</SelectItem>
-                        <SelectItem value="past">Past Events</SelectItem>
+                        <SelectItem value="Status">Status</SelectItem>
+                        <SelectItem value="PENDING">Upcoming</SelectItem>
+                        <SelectItem value="COMPLETED">Past Events</SelectItem>
+                        <SelectItem value="CLOSED">Close Events</SelectItem>
+                        <SelectItem value="CANCELLED">Cancel Events</SelectItem>
                     </SelectContent>
                 </Select>
 

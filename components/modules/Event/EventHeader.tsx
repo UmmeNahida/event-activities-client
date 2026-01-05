@@ -13,8 +13,8 @@ import {
 interface EventsHeaderProps {
     searchQuery: string;
     setSearchQuery: (query: string) => void;
-    sortBy: string;
-    setSortBy: (sort: string) => void;
+    sortBy?: string;
+    setSortBy?: (sort: string) => void;
 }
 
 export default function EventsHeader({
