@@ -1,5 +1,5 @@
-import React from 'react'
-import { sampleEvents } from './Homex'
+import { sampleEvents } from "./Banner"
+
 
 const PopularEvents = () => {
   return (
