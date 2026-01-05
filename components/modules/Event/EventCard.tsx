@@ -5,17 +5,18 @@ import { Calendar, MapPin, Tag, ArrowRight } from "lucide-react";
 import { Badge } from "../../ui/badge";
 import { Button } from "../../ui/button";
 import Link from "next/link";
-import { EventType } from "@/app/(commonLayout)/events/page";
 // import { joinedEvent } from "@/services/participants/participants-service";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { joinedEvent } from "@/services/participants/participants-service";
+import { IEventType } from "@/types/passed-event.interface";
+import { dateFormatter } from "@/components/shared/DateFormatter";
 
 
 
 
 interface EventCardProps {
-    event: EventType;
+    event: IEventType;
 }
 
 export default function EventCard({ event }: EventCardProps) {
@@ -41,7 +42,7 @@ export default function EventCard({ event }: EventCardProps) {
         router.push("/user/dashboard/joined-events");
     };
 
-
+     const { formattedDate, formattedTime } = dateFormatter(event.date);
 
     return (
         <div className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
@@ -55,10 +56,10 @@ export default function EventCard({ event }: EventCardProps) {
                 />
                 <div className="absolute top-4 right-4">
                     <Badge
-                        variant={event.isPaid ? "default" : "secondary"}
-                        className={event.isPaid ? "bg-accent text-accent-foreground" : "bg-primary text-primary-foreground"}
+                        variant={event.fee === 0 ? "default" : "secondary"}
+                        className={event.fee !== 0 ? "bg-white text-primary" : "bg-primary text-primary-foreground"}
                     >
-                        {event.fee}
+                        {event.fee === 0 ? "Free" : event.fee}
                     </Badge>
                 </div>
                 <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -78,7 +79,13 @@ export default function EventCard({ event }: EventCardProps) {
                 <div className="space-y-2 text-sm text-muted-foreground">
                     <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4" />
-                        <span>{event.date}</span>
+                        
+                        <span className="">
+                         {formattedDate},
+                        </span>
+                        <span className="">
+                         {formattedTime}
+                        </span>
                     </div>
                     <div className="flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
