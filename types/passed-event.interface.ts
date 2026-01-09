@@ -22,6 +22,7 @@ export interface IEventType {
   participantCount: number;
   fee: number;
   status: EventStatus;
+  isSaved?:boolean;
   createdAt: string;
   hostId: string;
   host: IHost;
