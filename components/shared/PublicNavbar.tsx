@@ -6,6 +6,7 @@ import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 import { getDefaultDashboardRoute } from "@/lib/auth-utils";
 import Image from "next/image";
+import { ModeToggle } from "./ModeToggle";
 
 const commonNav = [
   { label: "Explore Events", href: "/events" },
@@ -68,6 +69,8 @@ export default async function Navbar({ role = null}:NavbarProps) {
             <LogoutButton />
           )
         }
+
+        <ModeToggle></ModeToggle>
       </nav>
 
       <div className="md:hidden">
