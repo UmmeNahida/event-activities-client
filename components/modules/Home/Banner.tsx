@@ -116,7 +116,7 @@ const Banner = () => {
       <ContainerDiv>
         <section className="bg-white rounded-2xl -mt-6 p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">
+            <h2 className="text-xl font-semibold text-secondary">
               Browse Our Featured & Popular Events
             </h2>
             <Link
