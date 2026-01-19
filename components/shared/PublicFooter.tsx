@@ -30,13 +30,13 @@ export function PublicFooter() {
             </Link>
             <Link
               href={"https://www.instagram.com/ummenahida.dev"}
-              className="p-2 bg-white/10 rounded-lg"
+              className="p-1 bg-white/10 flx items-center justify-center rounded-full"
             >
               <Instagram />
             </Link>
             <Link
               href={"https://www.linkedin.com/in/devababil"}
-              className="p-2 bg-white/10 rounded-lg"
+              className="p-1 bg-white/10 flx items-center justify-center rounded-full"
             >
               <Linkedin />
             </Link>
