@@ -43,12 +43,12 @@ export default function Testimonials() {
   // const leftArrow = getIconComponent("corner-down-left")
 
   return (
-    <div className="w-full py-20 bg-white">
+    <div className="w-full py-20 bg-muted/20">
       <div className="text-center mb-10">
-        <h2 className="text-sm font-semibold text-blue-600 tracking-wide">
+        <h2 className="text-sm font-semibold text-primary tracking-wide">
           TESTIMONIALS
         </h2>
-        <h1 className="text-4xl font-bold text-gray-900 mt-1">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-primary/50 mt-1">
           What Our Clients Says
         </h1>
       </div>
@@ -59,7 +59,7 @@ export default function Testimonials() {
           <div
             key={i}
             className={`p-6 rounded-2xl shadow-sm border transition 
-            ${i === index ? "bg-white" : "bg-blue-50"}`}
+            ${i === index ? "bg-chart-1" : "bg-chart-2"}`}
           >
             <div className="flex items-center mb-3">
               <img
@@ -71,7 +71,7 @@ export default function Testimonials() {
 
             <p className="text-gray-700 leading-relaxed mb-4">{item.text}</p>
 
-            <h3 className="font-bold text-gray-900 text-lg">{item.name}</h3>
+            <h3 className="font-bold text-muted text-lg">{item.name}</h3>
             <p className="text-sm text-gray-500">{item.role}</p>
           </div>
         ))}
