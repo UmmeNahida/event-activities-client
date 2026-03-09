@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TrendingUp, Clock, CheckCircle } from "lucide-react";
 import { ChartBarMultiple } from "@/components/shared/BarChart";
 import { transformMonthlyEarnings } from "../host/TransformMonthlyEarnings";
