@@ -23,7 +23,7 @@ export function PublicFooter() {
           </h2>
           <p className="opacity-70">Social Link</p>
           <div className="flex gap-3 mt-3">
-            <Link href={"https://www.facebook.com/programmerababil"}>
+            <Link href={"https://www.facebook.com/nahida.dev"}>
               <div className="p-1 bg-white/10 flx items-center justify-center rounded-full">
                 <Facebook />{" "}
               </div>
