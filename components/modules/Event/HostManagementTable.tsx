@@ -25,25 +25,78 @@ import {
 } from "@/components/ui/alert-dialog";
 import Pagination from "./pagination";
 import ClearFiltersButton from "@/components/shared/ClearFiltersButton";
+import { TableSkeleton } from "@/components/shared/TableSkeleton";
+import { MapPin, Shield, User } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
-export default function HostManagementTable({ userData }: any) {
+export default function HostManagementTable({
+  userData,
+  isLoading,
+}: any) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState("");
-  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [userInfo, setUserInfo] =
     useState<IUserInfo>(defaultUserInfo);
 
   const columns: Column<IUserInfo>[] = [
-    { header: "Name", accessor: "name", sortKey: "name" },
-    { header: "Email", accessor: "email", sortKey: "email" },
-    { header: "Location", accessor: "location", sortKey: "location" },
+    {
+      header: "Name",
+      accessor: (row) => (
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center">
+            <User className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+          </div>
+          <div>
+            <p className="font-medium text-sm">{row.name}</p>
+            <p className="text-xs text-muted-foreground">
+              {row.email}
+            </p>
+          </div>
+        </div>
+      ),
+      sortKey: "name",
+    },
+    {
+      header: "Location",
+      accessor: (row) => (
+        <div className="flex items-center gap-2 text-sm">
+          <MapPin className="h-4 w-4 text-blue-500" />
+          <span>{row.location}</span>
+        </div>
+      ),
+      sortKey: "location",
+    },
     {
       header: "Status",
-      accessor: "userStatus",
+      accessor: (row) => (
+        <Badge
+          className={`
+          ${row.userStatus === "ACTIVE" ? "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-400" : ""}
+          ${row.userStatus === "INACTIVE" ? "bg-gray-100 text-gray-700 dark:bg-gray-950 dark:text-gray-400" : ""}
+          ${row.userStatus === "BLOCKED" ? "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400" : ""}
+          ${row.userStatus === "SUSPENDED" ? "bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-400" : ""}
+        `}
+        >
+          {row.userStatus}
+        </Badge>
+      ),
       sortKey: "userStatus",
     },
-    { header: "Role", accessor: "role" },
+    {
+      header: "Role",
+      accessor: (row) => (
+        <div className="flex items-center gap-2">
+          <Shield className="h-4 w-4 text-blue-500" />
+          <Badge
+            variant="outline"
+            className="border-blue-200 text-blue-700 dark:border-blue-800 dark:text-blue-400"
+          >
+            {row.role}
+          </Badge>
+        </div>
+      ),
+    },
   ];
 
   const handleView = async (row: IUserInfo) => {
@@ -57,7 +110,7 @@ export default function HostManagementTable({ userData }: any) {
       return toast.error(res.message || "Delete Request is failed");
     }
     toast.success(
-      res.message || "User has been deleted successfully"
+      res.message || "User has been deleted successfully",
     );
   };
 
@@ -66,12 +119,39 @@ export default function HostManagementTable({ userData }: any) {
     setOpenDeleteModal(true);
   };
 
+  if (isLoading) {
+    return (
+      <div className="p-5 space-y-4">
+        <div className="bg-linear-to-r from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
+          <div className="h-8 w-48 bg-blue-200 dark:bg-blue-900 rounded animate-pulse" />
+          <div className="h-4 w-64 bg-blue-100 dark:bg-blue-950 rounded animate-pulse mt-2" />
+        </div>
+        <div className="flex gap-5">
+          <div className="h-10 w-64 bg-muted rounded animate-pulse" />
+          <div className="h-10 w-40 bg-muted rounded animate-pulse" />
+          <div className="h-10 w-40 bg-muted rounded animate-pulse" />
+        </div>
+        <TableSkeleton columns={4} rows={10} showActions={true} />
+      </div>
+    );
+  }
+
   return (
-    <div className="p-5">
+    <div className="p-5 space-y-4">
+      {/* Header */}
+      <div className="bg-linear-to-r from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
+        <h2 className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+          Host Management
+        </h2>
+        <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+          Manage and monitor all hosts
+        </p>
+      </div>
+
       {/* Filters */}
-      <div className="flex items-center justify-start gap-5 mb-8">
+      <div className="flex items-center justify-start gap-5">
         <SearchFilter
-          placeholder="Search events..."
+          placeholder="Search hosts..."
           paramName="searchTerm"
         />
 
@@ -97,14 +177,13 @@ export default function HostManagementTable({ userData }: any) {
           ]}
         />
 
-        <ClearFiltersButton/>
+        <ClearFiltersButton />
       </div>
 
       <ManagementTable
         data={userData.data.users}
         columns={columns}
         getRowKey={(row: IUserInfo) => row.id}
-        isRefreshing={loading}
         onView={(row) => handleView(row)}
         onDelete={(row) => openDeleteConfirmModal(row.id)}
       />
